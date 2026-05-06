@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>猫武士 · 四族争霸 完整版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #121c12;
+            color: #eee;
+            font-family: "微软雅黑", sans-serif;
+            padding: 20px;
+        }
+        .main-wrap {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #1e2b1e;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 0 40px #0a110a;
+        }
+        h1 {
+            color: #ffd266;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h3 {
+            margin: 10px 0;
+            color: #c9e9c9;
+        }
+        .block {
+            background: #293b29;
+            padding: 18px;
+            border-radius: 12px;
+            margin: 15px 0;
+        }
+        button {
+            padding: 9px 14px;
+            margin: 5px 4px;
+            border: none;
+            border-radius: 5px;
+            background: #ffc845;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ffb300;
+        }
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        .row-flex {
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+        }
+        .role-card {
+            width: 48%;
+            background: #324732;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .hp-bar-bg {
+            width: 100%;
+            height: 13px;
+            background: #222;
+            border-radius: 6px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .hp-bar {
+            height: 100%;
+            background: #e75555;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .log-area {
+            height: 220px;
+            overflow-y: auto;
+            background: #172217;
+            padding: 15px;
+            border-radius: 10px;
+            line-height: 1.8;
+            text-align: left;
+            margin-top: 15px;
+        }
+        .green{color:#72e872}
+        .red{color:#ff7777}
+        .gold{color:#ffdd70}
+        .blue{color:#82c9ff}
+        .hide{display:none !important;}
+    </style>
+</head>
+<body>
+
+<div class="main-wrap">
+    <h1>🐾 猫武士 · 四族</h1>
+
+    <div id="zuqunSelect" class="block">
+        <h3>第一步：选择族群</h3>
+        <button onclick="pickZuqun('雷族')">雷族</button>
+        <button onclick="pickZuqun('风族')">风族</button>
+        <button onclick="pickZuqun('河族')">河族</button>
+        <button onclick="pickZuqun('影族')">影族</button>
+    </div>
+
+    <div id="catSelect" class="block hide">
+        <h3>第二步：选择武士</h3>
+        <div id="allCatBtn"></div>
+    </div>
+
+    <div id="petSelect" class="block hide">
+        <h3>第三步：选择伙伴</h3>
+        <button onclick="pickPet('小麻雀')">小麻雀（辅助加血）</button>
+        <button onclick="pickPet('野兔')">野兔（攻击加成）</button>
+        <button onclick="pickPet('松鼠')">松鼠（闪避加成）</button>
+    </div>
+
+    <div id="taskPanel" class="block hide">
+        <h3>📜 任务领取</h3>
+        <p id="taskText">暂无任务</p>
+        <button onclick="getTask()">接受任务并出发</button>
+        <span class="gold" id="taskTip"></span>
+    </div>
+
+    <div id="fightUI" class="hide">
+        <div class="row-flex">
+            <div class="role-card">
+                <h3 id="pName">武士姓名</h3>
+                <p id="pZuqun" class="gold"></p>
+                <div class="hp-bar-bg">
+                    <div class="hp-bar" id="pHpBar"></div>
+                </div>
+                <p>生命：<span id="pHpText">100</span>/100</p>
+                <p class="blue" id="petInfo">伙伴：无</p>
+            </div>
+            <div class="role-card">
+                <h3 id="eName">敌方武士</h3>
+                <div class="hp-bar-bg">
+                    <div class="hp-bar" id="eHpBar"></div>
+                </div>
+                <p>生命：<span id="eHpText">100</span>/100</p>
+            </div>
+        </div>
+
+        <div class="block" style="text-align:center">
+            <button onclick="atk()">利爪攻击</button>
+            <button onclick="defend()">准备防御</button>
+            <button onclick="skill()">使用技能</button>
+            <button onclick="herb()">草药治疗</button>
+        </div>
+
+        <div class="log-area" id="log"></div>
+
+        <div style="text-align:center;margin-top:15px">
+            <button onclick="restartGame()">重新开局</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// 全局数据
+let player = {
+    zuqun: "",
+    name: "",
+    hp: 100,
+    maxHp: 100,
+    atk: 15,
+    skillName: ""
+};
+
+let enemy = { name: "", hp: 100, maxHp: 100, atk: 12 };
+let pet = { name: "", type: "none" };
+
+let herbCount = 3;
+let isDefend = false;
+
+// 数据库
+const catData = {
+    "雷族":[
+        {name:"火星",atk:18,skill:"烈焰利爪"},
+        {name:"灰条",atk:16,skill:"狂风撕咬"},
+        {name:"沙风",atk:17,skill:"沙尘突袭"},
+        {name:"叶池",atk:13,skill:"草药祝福"},
+        {name:"松鼠飞",atk:15,skill:"灵巧连击"},
+        {name:"黑莓掌",atk:19,skill:"荆棘重击"}
+    ],
+    "风族":[
+        {name:"豹毛",atk:20,skill:"疾风猎杀"},
+        {name:"鸦羽",atk:17,skill:"暗影飞扑"}
+    ],
+    "河族":[
+        {name:"雾脚",atk:16,skill:"水雾缠绕"},
+        {name:"银溪",atk:14,skill:"流水治愈"}
+    ],
+    "影族":[
+        {name:"断星",atk:17,skill:"暗影利爪"},
+        {name:"虎星",atk:21,skill:"猛虎夺命"}
+    ]
+};
+
+const enemyPool = [
+    {name:"流浪独行猫",atk:11,hp:90},
+    {name:"黑森林学徒",atk:14,hp:100},
+    {name:"暗影巡逻武士",atk:16,hp:110},
+    {name:"黑森林精锐",atk:19,hp:130}
+];
+
+function pickZuqun(zq){
+    player.zuqun = zq;
+    document.getElementById("zuqunSelect").classList.add("hide");
+    document.getElementById("catSelect").classList.remove("hide");
+
+    let html = "";
+    catData[zq].forEach(cat => {
+        html += `<button onclick="pickCat('${cat.name}',${cat.atk},'${cat.skill}')">${cat.name}</button>`;
+    });
+    document.getElementById("allCatBtn").innerHTML = html;
+}
+
+function pickCat(name, atk, skill){
+    player.name = name;
+    player.atk = atk;
+    player.skillName = skill;
+
+    document.getElementById("catSelect").classList.add("hide");
+    document.getElementById("petSelect").classList.remove("hide");
+}
+
+function pickPet(name){
+    pet.name = name;
+    if(name === "小麻雀") pet.type = "heal";
+    if(name === "野兔") pet.type = "atk";
+    if(name === "松鼠") pet.type = "dodge";
+
+    document.getElementById("petSelect").classList.add("hide");
+    document.getElementById("taskPanel").classList.remove("hide");
+}
+
+function getTask(){
+    document.getElementById("taskText").innerText = "任务：击败一名敌方武士，守护族群领地！";
+    document.getElementById("taskPanel").classList.add("hide");
+    startFight();
+}
+
+function startFight(){
+    let ran = enemyPool[Math.floor(Math.random() * enemyPool.length)];
+    enemy.name = ran.name;
+    enemy.atk = ran.atk;
+    enemy.hp = ran.hp;
+    enemy.maxHp = ran.hp;
+
+    document.getElementById("fightUI").classList.remove("hide");
+    document.getElementById("pName").innerText = player.name;
+    document.getElementById("pZuqun").innerText = player.zuqun;
+    document.getElementById("eName").innerText = enemy.name;
+    document.getElementById("petInfo").innerText = "伙伴：" + pet.name;
+
+    addLog(`<span class="gold">${player.zuqun} ${player.name} 进入领地。</span>`);
+    updateHp();
+}
+
+function updateHp(){
+    let pPer = (player.hp / player.maxHp) * 100;
+    let ePer = (enemy.hp / enemy.maxHp) * 100;
+    document.getElementById("pHpBar").style.width = pPer + "%";
+    document.getElementById("eHpBar").style.width = ePer + "%";
+    document.getElementById("pHpText").innerText = player.hp;
+    document.getElementById("eHpText").innerText = enemy.hp;
+}
+
+function addLog(txt){
+    let log = document.getElementById("log");
+    log.innerHTML += txt + "<br>";
+    log.scrollTop = log.scrollHeight;
+}
+
+function atk(){
+    if(checkEnd()) return;
+    isDefend = false;
+    let dmg = Math.floor(player.atk + Math.random() * 8);
+    if(pet.type === "atk") dmg += 4;
+
+    enemy.hp = Math.max(0, enemy.hp - dmg);
+    addLog(`${player.name} 挥出利爪造成 ${dmg} 点伤害！`);
+    updateHp();
+    
+    if(!checkEnd()) setTimeout(enemyAct, 700);
+}
+
+function defend(){
+    if(checkEnd()) return;
+    isDefend = true;
+    addLog(`${player.name} 压低身体，准备闪避攻击！`);
+    setTimeout(enemyAct, 700);
+}
+
+function skill(){
+    if(checkEnd()) return;
+    isDefend = false;
+    let dmg = Math.floor(player.atk * 1.8 + Math.random() * 10);
+    enemy.hp = Math.max(0, enemy.hp - dmg);
+    addLog(`<span class="gold">${player.name} 发动技能【${player.skillName}】！造成 ${dmg} 点暴击伤害！</span>`);
+    updateHp();
+    
+    if(!checkEnd()) setTimeout(enemyAct, 700);
+}
+
+function herb(){
+    if(checkEnd()) return;
+    if(herbCount <= 0){
+        addLog(`<span class="red">草药已耗尽！</span>`);
+        return;
+    }
+    let heal = 25;
+    if(pet.type === "heal") heal += 10;
+    player.hp = Math.min(player.maxHp, player.hp + heal);
+    herbCount--;
+    addLog(`<span class="green">服用草药恢复 ${heal} 生命，剩余：${herbCount}</span>`);
+    updateHp();
+    setTimeout(enemyAct, 700);
+}
+
+function enemyAct(){
+    if(checkEnd()) return;
+    let dmg = Math.floor(enemy.atk + Math.random() * 7);
+
+    if(isDefend) dmg = Math.floor(dmg * 0.4);
+    else if(pet.type === "dodge" && Math.random() > 0.6) {
+        dmg = 0;
+        addLog(`<span class="blue">松鼠干扰了敌人！${player.name} 巧妙躲开了！</span>`);
+    }
+
+    if(dmg > 0){
+        player.hp = Math.max(0, player.hp - dmg);
+        addLog(`${enemy.name} 发起攻击，造成 ${dmg} 点伤害！`);
+    }
+    updateHp();
+    checkEnd();
+}
+
+function checkEnd(){
+    if(enemy.hp <= 0){
+        addLog(`<span class="green">✅ 战斗胜利！成功守护领地！</span>`);
+        lockAllBtn();
+        return true;
+    }
+    if(player.hp <= 0){
+        addLog(`<span class="red">❌ 战斗失败，武士由于伤势过重撤退了...</span>`);
+        lockAllBtn();
+        return true;
+    }
+    return false;
+}
+
+function lockAllBtn(){
+    document.querySelectorAll("#fightUI button").forEach(b=>{
+        if(b.innerText !== "重新开局") b.disabled = true;
+    });
+}
+
+function restartGame(){
+    location.reload();
+}
+</script>
+</body>
+</html>
