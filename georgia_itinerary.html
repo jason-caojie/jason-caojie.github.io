@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>格鲁吉亚国庆亲子徒步行程</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1f2933;
+      --muted: #607080;
+      --line: #d9e0e8;
+      --bg: #f5f7f8;
+      --panel: #ffffff;
+      --route: #0f766e;
+      --road: #7c5f37;
+      --warn: #a15c00;
+      --risk: #a83232;
+      --ok: #2f7d4f;
+      --soft: #eef4f1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.64;
+      color: var(--ink);
+      background: var(--bg);
+    }
+
+    header {
+      min-height: 320px;
+      padding: 58px 20px 112px;
+      color: #fff;
+      background:
+        linear-gradient(120deg, rgba(18, 82, 76, 0.96), rgba(44, 101, 84, 0.9) 48%, rgba(117, 102, 61, 0.92)),
+        radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.22), transparent 30%);
+    }
+
+    header .inner,
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    h1 {
+      max-width: 920px;
+      margin: 0 0 14px;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    header p {
+      max-width: 900px;
+      margin: 0;
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    main {
+      margin-top: -78px;
+      padding-bottom: 58px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 26px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    h4 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 8px 0;
+    }
+
+    ul {
+      margin: 8px 0 0;
+      padding-left: 1.2rem;
+    }
+
+    li {
+      margin: 5px 0;
+    }
+
+    a {
+      color: #0b5f92;
+      text-underline-offset: 3px;
+    }
+
+    .panel,
+    .map-card,
+    .day-card,
+    .reminder-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(31, 41, 51, 0.06);
+    }
+
+    .panel {
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    .map-card {
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+
+    .map-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 22px 0;
+    }
+
+    .map-head p {
+      max-width: 720px;
+      color: var(--muted);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-content: flex-start;
+      justify-content: flex-end;
+      min-width: 260px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+
+    .key {
+      width: 24px;
+      height: 4px;
+      border-radius: 99px;
+      display: inline-block;
+      background: var(--route);
+    }
+
+    .key.road {
+      background: var(--road);
+    }
+
+    .key.dot {
+      width: 10px;
+      height: 10px;
+      background: #fff;
+      border: 3px solid var(--route);
+    }
+
+    .map-wrap {
+      padding: 8px 14px 18px;
+      overflow-x: auto;
+    }
+
+    svg {
+      display: block;
+      min-width: 880px;
+      width: 100%;
+      height: auto;
+    }
+
+    .route-line {
+      fill: none;
+      stroke: var(--route);
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .road-line {
+      fill: none;
+      stroke: var(--road);
+      stroke-width: 5;
+      stroke-dasharray: 10 8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .side-line {
+      fill: none;
+      stroke: #4472a4;
+      stroke-width: 5;
+      stroke-dasharray: 4 8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .place {
+      fill: #fff;
+      stroke: var(--route);
+      stroke-width: 4;
+    }
+
+    .place.major {
+      stroke: #0b4f49;
+      stroke-width: 5;
+    }
+
+    .map-label {
+      font-size: 18px;
+      font-weight: 800;
+      fill: #20313d;
+    }
+
+    .map-small {
+      font-size: 14px;
+      fill: #607080;
+    }
+
+    .day-chip {
+      fill: #fff8ec;
+      stroke: #d2a261;
+      stroke-width: 1;
+    }
+
+    .chip-text {
+      font-size: 13px;
+      font-weight: 800;
+      fill: #7a4700;
+    }
+
+    .overview {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .metric {
+      padding: 17px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .days {
+      display: grid;
+      gap: 14px;
+    }
+
+    .day-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.85fr);
+      overflow: hidden;
+    }
+
+    .original,
+    .advice {
+      padding: 20px;
+    }
+
+    .advice {
+      border-left: 1px solid var(--line);
+      background: #fbfcfa;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      background: #eef5f4;
+      color: var(--route);
+    }
+
+    .tag.warn {
+      background: #fff1d6;
+      color: var(--warn);
+    }
+
+    .tag.risk {
+      background: #ffe5e5;
+      color: var(--risk);
+    }
+
+    .tag.ok {
+      background: #e8f5ed;
+      color: var(--ok);
+    }
+
+    .small-title {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .callout {
+      padding: 12px 14px;
+      margin-top: 12px;
+      border-radius: 8px;
+      background: #fff8ec;
+      border: 1px solid #f0d3a6;
+      color: #6d4200;
+    }
+
+    .callout.risk {
+      background: #fff1f1;
+      border-color: #efc7c7;
+      color: #7b2020;
+    }
+
+    .reminders {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .reminder-card {
+      padding: 18px;
+    }
+
+    .sources {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    footer {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 920px) {
+      header {
+        padding-bottom: 94px;
+      }
+
+      .map-head,
+      .day-card {
+        grid-template-columns: 1fr;
+        display: block;
+      }
+
+      .legend {
+        justify-content: flex-start;
+        margin-top: 12px;
+      }
+
+      .advice {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .overview,
+      .reminders {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      header .inner,
+      main {
+        width: min(100% - 24px, 1180px);
+      }
+
+      .overview,
+      .reminders {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner">
+      <h1>格鲁吉亚国庆亲子徒步行程</h1>
+      <p>原始计划来自项目文件《格鲁吉亚-高加索穿越》。页面先保留原安排和路线标注，再在每一天右侧给出对两家人、10/11 岁孩子同行时的调整建议。</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="map-card" aria-labelledby="map-title">
+      <div class="map-head">
+        <div>
+          <h2 id="map-title">路线示意地图</h2>
+          <p>这是用于讨论行程的示意图，不替代离线地图或 GPX 轨迹。实地徒步仍应使用 Maps.me、Organic Maps、Wikiloc 或 Caucasus Trekking 的轨迹文件。</p>
+        </div>
+        <div class="legend" aria-label="图例">
+          <span><i class="key road"></i>交通转场</span>
+          <span><i class="key"></i>徒步主线</span>
+          <span><i class="key" style="background:#4472a4"></i>D7 备选/加码</span>
+          <span><i class="key dot"></i>住宿或节点</span>
+        </div>
+      </div>
+      <div class="map-wrap">
+        <svg viewBox="0 0 1120 560" role="img" aria-label="格鲁吉亚行程路线图">
+          <defs>
+            <linearGradient id="ridge" x1="0" x2="1">
+              <stop offset="0" stop-color="#eef4f1"/>
+              <stop offset="1" stop-color="#e7ede3"/>
+            </linearGradient>
+            <marker id="arrow-route" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+            </marker>
+            <marker id="arrow-road" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#7c5f37"/>
+            </marker>
+          </defs>
+
+          <rect x="0" y="0" width="1120" height="560" fill="#f9fbfb"/>
+          <path d="M50 430 C130 360 180 380 260 310 C340 240 398 250 470 196 C540 145 602 166 680 105 C760 42 874 68 1055 42 L1070 518 L40 520 Z" fill="url(#ridge)"/>
+          <path d="M54 452 C156 395 214 392 287 338 C368 278 440 270 514 218 C606 154 694 166 772 110 C852 52 936 70 1072 52" fill="none" stroke="#d3ded7" stroke-width="18" stroke-linecap="round"/>
+          <path d="M70 482 C170 420 230 425 310 365 C400 300 462 308 548 250 C636 190 720 200 805 142 C890 84 972 94 1070 78" fill="none" stroke="#e6ece8" stroke-width="22" stroke-linecap="round"/>
+
+          <path class="road-line" marker-end="url(#arrow-road)" d="M120 445 C230 435 315 365 390 310 C465 255 540 238 620 210"/>
+          <path class="route-line" marker-end="url(#arrow-route)" d="M620 210 C660 178 696 164 742 178 C790 196 828 178 858 145 C890 110 924 122 950 166 C980 218 1002 232 1032 206"/>
+          <path class="road-line" marker-end="url(#arrow-road)" d="M1032 206 C940 254 825 256 704 246 C598 238 512 268 430 324 C340 386 242 430 120 445"/>
+          <path class="side-line" d="M620 210 C616 150 648 104 702 70"/>
+          <path class="side-line" d="M1032 206 C1058 156 1072 118 1088 80"/>
+
+          <circle class="place major" cx="120" cy="445" r="12"/>
+          <text class="map-label" x="78" y="476">第比利斯</text>
+          <text class="map-small" x="74" y="496">D1 / D8 机场与火车</text>
+
+          <circle class="place" cx="390" cy="310" r="10"/>
+          <text class="map-label" x="338" y="292">祖格迪迪</text>
+          <text class="map-small" x="326" y="274">D2 火车换山路车</text>
+
+          <circle class="place major" cx="620" cy="210" r="13"/>
+          <text class="map-label" x="574" y="196">Mestia</text>
+          <text class="map-small" x="560" y="178">D2 / D6 / D7 住宿</text>
+
+          <circle class="place" cx="742" cy="178" r="10"/>
+          <text class="map-label" x="716" y="154">Zhabeshi</text>
+          <text class="map-small" x="712" y="136">D3 终点</text>
+
+          <circle class="place" cx="858" cy="145" r="10"/>
+          <text class="map-label" x="824" y="128">Adishi</text>
+          <text class="map-small" x="804" y="110">D4 终点 / D5 过河</text>
+
+          <circle class="place" cx="950" cy="166" r="10"/>
+          <text class="map-label" x="910" y="150">Chkhunderi</text>
+          <text class="map-small" x="910" y="132">D5 山口</text>
+
+          <circle class="place" cx="1000" cy="226" r="10"/>
+          <text class="map-label" x="958" y="252">Iprari</text>
+          <text class="map-small" x="940" y="272">D5 住宿</text>
+
+          <circle class="place major" cx="1032" cy="206" r="12"/>
+          <text class="map-label" x="1036" y="194">Ushguli</text>
+          <text class="map-small" x="1038" y="214">D6 村落</text>
+
+          <circle class="place" cx="702" cy="70" r="9"/>
+          <text class="map-label" x="658" y="52">Koruldi Lakes</text>
+          <text class="map-small" x="650" y="34">D7 原计划加码</text>
+
+          <circle class="place" cx="1088" cy="80" r="9"/>
+          <text class="map-label" x="1010" y="70">Shkhara Glacier</text>
+          <text class="map-small" x="1010" y="92">D6 可选短走</text>
+
+          <rect class="day-chip" x="190" y="392" width="66" height="28" rx="14"/>
+          <text class="chip-text" x="206" y="411">D2</text>
+          <rect class="day-chip" x="656" y="184" width="66" height="28" rx="14"/>
+          <text class="chip-text" x="672" y="203">D3</text>
+          <rect class="day-chip" x="786" y="150" width="66" height="28" rx="14"/>
+          <text class="chip-text" x="802" y="169">D4</text>
+          <rect class="day-chip" x="916" y="188" width="66" height="28" rx="14"/>
+          <text class="chip-text" x="932" y="207">D5</text>
+          <rect class="day-chip" x="1006" y="230" width="66" height="28" rx="14"/>
+          <text class="chip-text" x="1022" y="249">D6</text>
+          <rect class="day-chip" x="632" y="100" width="66" height="28" rx="14"/>
+          <text class="chip-text" x="648" y="119">D7</text>
+          <rect class="day-chip" x="308" y="390" width="66" height="28" rx="14"/>
+          <text class="chip-text" x="324" y="409">D8</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="overview" aria-label="核心判断">
+      <div class="metric"><strong>8 天</strong><span>格鲁吉亚境内 D1-D8</span></div>
+      <div class="metric"><strong>4 天主线</strong><span>Mestia 到 Ushguli 徒步</span></div>
+      <div class="metric"><strong>2 个孩子</strong><span>10 岁和 11 岁，需按亲子强度重排</span></div>
+      <div class="metric"><strong>10 月</strong><span>接近徒步季尾声，天气窗口变窄</span></div>
+    </section>
+
+    <section class="panel">
+      <h2>总体判断</h2>
+      <p>原路线是经典的 Svaneti 徒步线，风景和住宿补给都成熟；问题在于文件里的安排更像 8 月成人徒步节奏。国庆时段日照更短、山口早雪概率更高、儿童连续恢复能力更弱，所以建议保留主线，但删掉高风险加码，并给回程航班留出更厚的缓冲。</p>
+    </section>
+
+    <div class="days" aria-label="每日安排和修改建议">
+      <article class="day-card" id="d1">
+        <div class="original">
+          <div class="small-title">原安排</div>
+          <h3>D1 0803 北京 - 第比利斯</h3>
+          <div class="meta"><span class="tag ok">可行</span><span class="tag">交通日</span></div>
+          <p>北京 T2 05:55 飞阿拉木图 08:20，经停约 9 小时；阿拉木图 18:10 飞第比利斯 21:20。抵达后坐 37 路小巴到第比利斯火车站，住火车站附近。</p>
+        </div>
+        <aside class="advice">
+          <div class="small-title">修改建议</div>
+          <h4>不加活动，只保睡眠。</h4>
+          <p>这个安排本身合理。重点是落地后尽快到酒店，准备第二天早起转场。若孩子在经停和航班中已经明显疲惫，D2 早晨要降低期待，不要安排第比利斯游览。</p>
+        </aside>
+      </article>
+
+      <article class="day-card" id="d2">
+        <div class="original">
+          <div class="small-title">原安排</div>
+          <h3>D2 0804 第比利斯 - 祖格迪迪 - Mestia</h3>
+          <div class="meta"><span class="tag warn">长交通日</span><span class="tag">住 Mestia</span></div>
+          <p>第比利斯 08:20 火车到祖格迪迪约 14:21；祖格迪迪火车站门口转 Marshrutka 小巴，约 4 小时到 Mestia，或拼出租约 3 小时。住宿 Seti Tower Guesthouse。</p>
+          <p>原提醒中还写到：下车后争取预订 D8 返回第比利斯的长途车票。</p>
+        </div>
+        <aside class="advice">
+          <div class="small-title">修改建议</div>
+          <h4>把这天当作消耗日。</h4>
+          <p>到 Mestia 后只做三件事：采购高热量路餐、确认未来两天天气、确认 GPX/离线地图。儿童同行不建议当天再去观景台或安排额外徒步。</p>
+          <div class="callout">如果预算允许，祖格迪迪到 Mestia 更建议拼车或包车，减少等待和晕车不确定性。</div>
+        </aside>
+      </article>
+
+      <article class="day-card" id="d3">
+        <div class="original">
+          <div class="small-title">原安排</div>
+          <h3>D3 0805 Mestia - Zhabeshi</h3>
+          <div class="meta"><span class="tag ok">主线第 1 天</span><span class="tag">16.1 km</span><span class="tag">爬升 763 m</span><span class="tag">约 8 h</span></div>
+          <p>从 Mestia 主广场出发，沿途看 Mt. Ushba 和 Tetnuldi。文件建议 8 点早出发，部分路段较晒；在通往 Zhamushi 的上路可选左侧林间小径，之后到 Lakhiri 再回主路。</p>
+        </div>
+        <aside class="advice">
+          <div class="small-title">修改建议</div>
+          <h4>保留，但作为适应日管理。</h4>
+          <p>这天对有徒步经验的 10/11 岁孩子可行，但队伍要慢起步、勤补水。建议 7:30-8:00 出发，下午变天前完成主要路段。</p>
+          <div class="callout">不要让孩子背大包。成人分担公共物资，孩子只背水、雨衣、保暖层和零食。</div>
+        </aside>
+      </article>
+
+      <article class="day-card" id="d4">
+        <div class="original">
+          <div class="small-title">原安排</div>
+          <h3>D4 0806 Zhabeshi - Tetnuldi 滑雪场 - Adishi</h3>
+          <div class="meta"><span class="tag ok">主线第 2 天</span><span class="tag">10.6 km</span><span class="tag">海拔 1640-2487 m</span><span class="tag">6-8 h</span></div>
+          <p>沿公路和滑雪道上坡，翻过一座小山脊。原文件认为这一天较短，可以找一些分岔口走一走。</p>
+        </div>
+        <aside class="advice">
+          <div class="small-title">修改建议</div>
+          <h4>不建议主动加分岔。</h4>
+          <p>虽然距离短，但爬升集中。国庆时段如果遇到低温、风或雨，体感会明显下降。建议按主线走，不为了“多看一点”消耗 D5 前的体力。</p>
+          <div class="callout">到 Adishi 后请让客栈提前确认第二天 Adishi 河水位、马匹和山口天气。</div>
+        </aside>
+      </article>
+
+      <article class="day-card" id="d5">
+        <div class="original">
+          <div class="small-title">原安排</div>
+          <h3>D5 0807 Adishi - Chkhunderi Pass - Iprari</h3>
+          <div class="meta"><span class="tag risk">全程风险核心</span><span class="tag">18.7 km</span><span class="tag">爬升 996 m</span><span class="tag">下降 1138 m</span><span class="tag">约 8 h</span></div>
+          <p>早上从 Adishi 涉水过河，有送人过河服务；之后沿河到 Adishi 冰川脚下再次过河，再上 Chkhunderi Pass。天气好时可从山口沿山脊向东北加走，观冰川和 Shkhara 方向群山。</p>
+        </div>
+        <aside class="advice">
+          <div class="small-title">修改建议</div>
+          <h4>默认雇马过河，取消山口加走。</h4>
+          <p>这是整条线最不该冒险的一天。儿童同行不建议自行试水，哪怕水看起来不深。山口加走也建议取消，把体力留给安全下撤和抵达 Iprari。</p>
+          <div class="callout risk">天气差、河水急、山口积雪、能见度低时，直接启动撤退或包车方案，不把“完成穿越”当硬目标。</div>
+        </aside>
+      </article>
+
+      <article class="day-card" id="d6">
+        <div class="original">
+          <div class="small-title">原安排</div>
+          <h3>D6 0808 Iprari - Ushguli - Mestia</h3>
+          <div class="meta"><span class="tag warn">主线第 4 天</span><span class="tag">方案 1：12.4 km</span><span class="tag">方案 2：Latpari 湖 16 km</span></div>
+          <p>方案 1：从 Iprari 经 Davberi 到 Ushguli，约 12.4 km，爬升 667 m、下降 436 m。方案 2：若前一天没看到风景，可包车到 Latpari 湖，再从约 2900 m 的山脊徒步下到 Ushguli。下午如有时间，可从 Ushguli 去 Shkhara glacier，之后拼车回 Mestia。</p>
+        </div>
+        <aside class="advice">
+          <div class="small-title">修改建议</div>
+          <h4>只保留方案 1。</h4>
+          <p>Latpari 湖方案在 10 月和儿童同行条件下不适合作为补偿性安排。到 Ushguli 后优先村内游览、吃饭、确认回 Mestia 车辆。Shkhara glacier 只作为天气好、体力好、车已确认时的短项目。</p>
+          <div class="callout">当天最终目标不是“多走一个冰川”，而是平安回到 Mestia，为 D7 和 D8 留出恢复空间。</div>
+        </aside>
+      </article>
+
+      <article class="day-card" id="d7">
+        <div class="original">
+          <div class="small-title">原安排</div>
+          <h3>D7 0809 Mestia - Koruldi Lakes - Guli Pass - Mestia</h3>
+          <div class="meta"><span class="tag risk">原计划过强</span><span class="tag">16 km</span><span class="tag">爬升 +931 m</span><span class="tag">约 9 h</span></div>
+          <p>原计划从 Mestia 坐越野车上山到 Koruldi Lakes，再从湖边继续徒步到 Guli Pass，看高加索山脉群峰，之后原路返回 Mestia。</p>
+        </div>
+        <aside class="advice">
+          <div class="small-title">修改建议</div>
+          <h4>改成恢复型景观日。</h4>
+          <p>连续四天徒步后，再冲 Guli Pass 对孩子和大人都过载。建议改为：越野车到 Koruldi Lakes 附近短走拍照后返回，或改走 Chalaadi Glacier 这种更轻的半日徒步。</p>
+          <div class="callout risk">若 D8 仍要从 Mestia 接晚间国际航班，D7 更应该提前回第比利斯或至少减少体力消耗。</div>
+        </aside>
+      </article>
+
+      <article class="day-card" id="d8">
+        <div class="original">
+          <div class="small-title">原安排</div>
+          <h3>D8 0810 Mestia - 第比利斯 - 阿拉木图</h3>
+          <div class="meta"><span class="tag risk">航班容错不足</span><span class="tag">长交通日</span></div>
+          <p>早上 7 点从 Mestia 中心坐车返回第比利斯，下午到达。若有机会看一眼圣三一大教堂，之后去机场吃饭，22:20 飞阿拉木图。</p>
+        </div>
+        <aside class="advice">
+          <div class="small-title">修改建议</div>
+          <h4>最好 D7 就回第比利斯。</h4>
+          <p>Mestia 山路受天气、路况、车辆调度影响很大。当天从山区接国际航班理论可行，但对两家人和孩子来说容错太薄。更稳是 D7 回第比利斯，D8 做轻松城市半日和机场转场。</p>
+          <div class="callout">如果坚持 D8 回城，建议私车极早出发，并接受误机风险；同时不要安排第比利斯景点。</div>
+        </aside>
+      </article>
+    </div>
+
+    <section class="panel" style="margin-top:22px">
+      <h2>出行提醒整理</h2>
+      <p>以下整理自原 txt 文件，并按亲子徒步实际使用场景重排。</p>
+      <div class="reminders">
+        <div class="reminder-card">
+          <h3>证件与入境</h3>
+          <ul>
+            <li>格鲁吉亚：携带有效护照、往返机票、住宿预订和保险材料。</li>
+            <li>阿拉木图经停：保留后续联程机票和有效旅行证件，按航司与当地入境政策执行。</li>
+            <li>打印材料：往返机票、Tbilisi/Mestia 住宿、火车票、医疗保险、护照首页复印件。</li>
+            <li>准备 3-5 张证件照和 2 支笔，方便临时表格或备份。</li>
+          </ul>
+        </div>
+
+        <div class="reminder-card">
+          <h3>交通与应用</h3>
+          <ul>
+            <li>第比利斯机场到市区可用 37 路小巴，也可用 Bolt 或 Yandex Go。</li>
+            <li>第比利斯到祖格迪迪火车需提前买票，原文件提醒提前约 20 天关注放票。</li>
+            <li>祖格迪迪到 Mestia 可坐 Marshrutka，或拼车/包车提高确定性。</li>
+            <li>Mestia 返回第比利斯长途车建议提前预订，不要等最后一天才找车。</li>
+            <li>提前下载 Yandex Map、Google Map、翻译软件和离线地图。</li>
+          </ul>
+        </div>
+
+        <div class="reminder-card">
+          <h3>徒步轨迹</h3>
+          <ul>
+            <li>下载 Maps.me 或 Organic Maps，并提前导入 Mestia-Ushguli KML/GPX。</li>
+            <li>原文件提到可从 Caucasus Trekking 下载 KML 轨迹。</li>
+            <li>建议额外下载 Wikiloc 或其他 GPX 备份，避免单一应用失效。</li>
+            <li>Mestia 游客中心可索取徒步地图，主线路石头上通常有标记。</li>
+          </ul>
+        </div>
+
+        <div class="reminder-card">
+          <h3>现金与通讯</h3>
+          <ul>
+            <li>格鲁吉亚货币为拉里 GEL，山里以现金为主。</li>
+            <li>可带美元到当地兑换，也可用支持银联/Visa 的 ATM 取款。</li>
+            <li>原文件提到 Magti 信号较好，但山区仍会有无信号区域。</li>
+            <li>家庭之间每天约定集合点和失联处理规则，不依赖实时通讯。</li>
+          </ul>
+        </div>
+
+        <div class="reminder-card">
+          <h3>装备</h3>
+          <ul>
+            <li>原清单写 10-25 度，但国庆高海拔应按更冷准备。</li>
+            <li>每人：速干衣裤、抓绒或薄羽绒、冲锋衣裤、防水登山鞋、登山袜。</li>
+            <li>必带：登山杖、护膝、雨衣、遮阳帽、头灯、充电宝、转换插头。</li>
+            <li>Adishi 河：建议带溯溪鞋/凉鞋和备用干袜，并默认雇马过河。</li>
+          </ul>
+        </div>
+
+        <div class="reminder-card">
+          <h3>补给与健康</h3>
+          <ul>
+            <li>山中家庭旅馆通常含早晚餐，可把吃不完的早餐打包做路餐。</li>
+            <li>Mestia 提前购买巧克力、糕点、坚果、葡萄糖、补液盐等高热量食品。</li>
+            <li>带常用药、肠胃药、创可贴、绷带、碘伏、止痛药、儿童适用药物。</li>
+            <li>确认旅行保险覆盖山地徒步、涉水风险、紧急救援和医疗转运。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel sources">
+      <h2>参考资料</h2>
+      <ul>
+        <li><a href="https://www.caucasus-trekking.com/treks/trek-mestia-to-ushguli">Caucasus Trekking: Mestia to Ushguli Trek</a></li>
+        <li><a href="https://thegeorgianguide.com/hiking/mestia-ushguli-trek/">The Georgian Guide: Mestia to Ushguli Trek 2026</a></li>
+        <li><a href="https://thegeorgianguide.com/hiking/koruldi-lakes-hike/">The Georgian Guide: Koruldi Lakes Hike 2026</a></li>
+        <li><a href="https://wander-lush.org/tbilisi-to-zugdidi-train/">Wander-Lush: Tbilisi to Zugdidi Train 2026</a></li>
+        <li><a href="https://mfa.gov.ge/en/news/600108-chinetis-respublikis-moqalaqeebistvis-sheghavatiani-savizo-rezhimi-amoqmedda">Ministry of Foreign Affairs of Georgia: Chinese Citizens Visa-Free Tourism</a></li>
+      </ul>
+      <footer>生成日期：2026-05-19。本页面用于家庭行程讨论，不替代当地向导、天气预报、道路通行公告和旅行保险条款。</footer>
+    </section>
+  </main>
+</body>
+</html>
