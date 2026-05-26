@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>格鲁吉亚大本营日徒步方案 - 静态地图版</title>
+  <style>
+    :root {
+      --ink: #1f2933;
+      --muted: #627282;
+      --line: #d7e0e8;
+      --bg: #f5f7f8;
+      --panel: #ffffff;
+      --water: #cfe5ef;
+      --land: #edf3ea;
+      --hill: #dce8d4;
+      --road: #8b633a;
+      --easy: #2f7d4f;
+      --moderate: #0f766e;
+      --hard: #a15c00;
+      --blue: #3d6f9f;
+      --risk: #a83232;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.62;
+      color: var(--ink);
+      background: var(--bg);
+    }
+
+    header {
+      padding: 52px 20px 102px;
+      color: #fff;
+      background: linear-gradient(120deg, #124f4b, #2e6d5d 54%, #786a43);
+    }
+
+    header .inner,
+    main {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 0 0 14px;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    header p {
+      max-width: 940px;
+      margin: 0;
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    main {
+      margin-top: -78px;
+      padding-bottom: 58px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 26px;
+      line-height: 1.25;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      line-height: 1.35;
+    }
+
+    p { margin: 8px 0; }
+    ul { margin: 8px 0 0; padding-left: 1.2rem; }
+    li { margin: 5px 0; }
+    a { color: #0b5f92; text-underline-offset: 3px; }
+
+    .panel,
+    .map-card,
+    .day,
+    .note {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(31, 41, 51, 0.06);
+    }
+
+    .map-card {
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .map-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 22px 22px 14px;
+    }
+
+    .map-head p {
+      max-width: 760px;
+      color: var(--muted);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-content: flex-start;
+      justify-content: flex-end;
+      min-width: 310px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+
+    .key {
+      width: 24px;
+      height: 4px;
+      border-radius: 99px;
+      display: inline-block;
+      background: var(--moderate);
+    }
+
+    .key.road { background: var(--road); }
+    .key.easy { background: var(--easy); }
+    .key.hard { background: var(--hard); }
+    .key.blue { background: var(--blue); }
+
+    .map-wrap {
+      padding: 0 16px 18px;
+      overflow-x: auto;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      min-width: 1060px;
+      height: auto;
+      background: #f9fbfb;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .map-note {
+      padding: 12px 22px 18px;
+      color: var(--muted);
+      font-size: 14px;
+      border-top: 1px solid var(--line);
+      background: #fbfcfc;
+    }
+
+    .route {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .road-route {
+      stroke: var(--road);
+      stroke-width: 5;
+      stroke-dasharray: 11 8;
+    }
+
+    .easy-route {
+      stroke: var(--easy);
+      stroke-width: 6;
+    }
+
+    .moderate-route {
+      stroke: var(--moderate);
+      stroke-width: 6;
+    }
+
+    .hard-route {
+      stroke: var(--hard);
+      stroke-width: 6;
+    }
+
+    .blue-route {
+      stroke: var(--blue);
+      stroke-width: 6;
+    }
+
+    .blue-dash {
+      stroke: var(--blue);
+      stroke-width: 5;
+      stroke-dasharray: 6 8;
+    }
+
+    .panel-title {
+      font-size: 20px;
+      font-weight: 900;
+      fill: #243746;
+    }
+
+    .map-label {
+      font-size: 17px;
+      font-weight: 850;
+      fill: #263746;
+    }
+
+    .map-small {
+      font-size: 13px;
+      fill: #607080;
+    }
+
+    .map-tiny {
+      font-size: 12px;
+      fill: #607080;
+    }
+
+    .place {
+      fill: #fff;
+      stroke: #0f766e;
+      stroke-width: 4;
+    }
+
+    .place.road { stroke: var(--road); }
+    .place.easy { stroke: var(--easy); }
+    .place.hard { stroke: var(--hard); }
+    .place.blue { stroke: var(--blue); }
+
+    .chip {
+      fill: #fff;
+      stroke: #d1a362;
+      stroke-width: 1.2;
+    }
+
+    .chip-text {
+      font-size: 13px;
+      font-weight: 900;
+      fill: #754400;
+    }
+
+    .overview {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .metric,
+    .panel,
+    .day,
+    .note {
+      padding: 20px;
+    }
+
+    .metric {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .metric span,
+    .muted {
+      color: var(--muted);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #edf2f4;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      background: #eef5f4;
+      color: var(--moderate);
+      white-space: nowrap;
+    }
+
+    .tag.easy { background: #e8f5ed; color: var(--easy); }
+    .tag.hard { background: #fff1d6; color: var(--hard); }
+    .tag.road { background: #f2ece2; color: var(--road); }
+    .tag.blue { background: #edf4ff; color: var(--blue); }
+
+    .days {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .day {
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr) 230px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .date {
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    .stats {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+    }
+
+    .stats strong { color: var(--ink); }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    footer {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 920px) {
+      .map-head,
+      .day {
+        display: block;
+      }
+
+      .legend {
+        justify-content: flex-start;
+        margin-top: 12px;
+      }
+
+      .stats { margin-top: 10px; }
+
+      .overview,
+      .notes-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      header .inner,
+      main {
+        width: min(100% - 24px, 1220px);
+      }
+
+      .overview,
+      .notes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner">
+      <h1>格鲁吉亚大本营日徒步方案</h1>
+      <p>静态地图版：不依赖在线地图瓦片，直接在清晰底图上标出第比利斯转场、Mestia 大本营和每天轻装日徒步线路。</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="map-card" aria-labelledby="map-title">
+      <div class="map-head">
+        <div>
+          <h2 id="map-title">静态路线地图</h2>
+          <p>这张图按真实地点相对位置绘制，用来做行程讨论和路线理解。它不是导航地图，也不是 GPX 轨迹；出发时仍要用离线地图和正式轨迹。</p>
+        </div>
+        <div class="legend" aria-label="图例">
+          <span><i class="key road"></i>跨城交通</span>
+          <span><i class="key easy"></i>轻松徒步</span>
+          <span><i class="key"></i>中等徒步</span>
+          <span><i class="key hard"></i>偏强徒步</span>
+          <span><i class="key blue"></i>车游+短走</span>
+        </div>
+      </div>
+
+      <div class="map-wrap">
+        <svg viewBox="0 0 1220 780" role="img" aria-label="格鲁吉亚大本营日徒步静态地图">
+          <defs>
+            <marker id="arrow-road" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b633a"/>
+            </marker>
+            <marker id="arrow-route" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+            </marker>
+            <linearGradient id="ridge" x1="0" x2="1">
+              <stop offset="0" stop-color="#e9f1e2"/>
+              <stop offset="1" stop-color="#d7e4cf"/>
+            </linearGradient>
+          </defs>
+
+          <rect x="0" y="0" width="1220" height="780" fill="#f9fbfb"/>
+
+          <rect x="28" y="36" width="360" height="690" rx="14" fill="#fff" stroke="#d7e0e8"/>
+          <text class="panel-title" x="52" y="72">A. 第比利斯到 Mestia 转场</text>
+          <text class="map-small" x="52" y="96">9/30 抵达第比利斯；10/1 进山；10/6 回城</text>
+          <path d="M66 641 C98 532 156 455 186 362 C216 270 240 185 314 118" fill="none" stroke="#e2e9e5" stroke-width="34" stroke-linecap="round"/>
+          <path class="route road-route" marker-end="url(#arrow-road)" d="M74 630 C112 536 154 468 184 382 C216 292 248 194 318 128"/>
+          <path class="route road-route" opacity="0.45" d="M318 128 C250 196 214 300 184 382 C154 468 112 536 74 630"/>
+
+          <circle class="place road" cx="74" cy="630" r="13"/>
+          <text class="map-label" x="98" y="628">第比利斯</text>
+          <text class="map-small" x="98" y="648">9/30、10/6、10/7</text>
+
+          <circle class="place road" cx="184" cy="382" r="11"/>
+          <text class="map-label" x="206" y="376">祖格迪迪</text>
+          <text class="map-small" x="206" y="396">火车/山路车换乘</text>
+
+          <circle class="place" cx="318" cy="128" r="14"/>
+          <text class="map-label" x="184" y="120">Mestia 大本营</text>
+          <text class="map-small" x="184" y="140">建议连住 5 晚</text>
+
+          <rect class="chip" x="92" y="518" width="74" height="28" rx="14"/>
+          <text class="chip-text" x="106" y="537">10/1</text>
+          <rect class="chip" x="202" y="245" width="74" height="28" rx="14"/>
+          <text class="chip-text" x="216" y="264">10/6</text>
+
+          <rect x="420" y="36" width="772" height="690" rx="14" fill="#fff" stroke="#d7e0e8"/>
+          <text class="panel-title" x="448" y="72">B. Mestia 大本营日徒步</text>
+          <text class="map-small" x="448" y="96">所有行李留在 Mestia，每天轻装出发，必要时用车接驳</text>
+
+          <path d="M454 614 C526 502 582 548 652 438 C712 346 748 338 842 286 C918 244 1004 192 1152 110 L1168 704 L438 704 Z" fill="url(#ridge)"/>
+          <path d="M448 612 C532 560 590 568 660 492 C724 420 752 374 828 340 C908 304 982 252 1162 168" fill="none" stroke="#dbe7d5" stroke-width="34" stroke-linecap="round"/>
+          <path d="M462 638 C538 590 618 596 704 520 C778 454 826 432 900 390 C978 348 1036 290 1160 238" fill="none" stroke="#e8efe5" stroke-width="24" stroke-linecap="round"/>
+
+          <path class="route easy-route" d="M596 292 C606 244 632 206 662 184 C678 170 690 158 706 142"/>
+          <path class="route hard-route" d="M596 292 C560 236 558 188 584 144 C600 118 624 104 648 96"/>
+          <path class="route moderate-route" marker-end="url(#arrow-route)" d="M596 292 C652 320 706 332 764 348 C818 362 858 358 898 344"/>
+          <path class="route blue-route" d="M596 292 C720 342 836 366 958 376 C1034 384 1088 392 1128 420"/>
+          <path class="route blue-route" d="M1128 420 C1142 404 1152 382 1162 354"/>
+          <path class="route blue-dash" d="M1162 354 C1172 330 1178 302 1182 276"/>
+          <path class="route easy-route" stroke-dasharray="6 8" d="M596 292 C584 348 562 380 538 412"/>
+
+          <circle class="place" cx="596" cy="292" r="15"/>
+          <text class="map-label" x="538" y="278">Mestia</text>
+          <text class="map-small" x="512" y="300">大本营 / 每天返回</text>
+
+          <circle class="place easy" cx="706" cy="142" r="11"/>
+          <text class="map-label" x="724" y="138">Chalaadi Glacier</text>
+          <text class="map-small" x="724" y="158">10/2 约 6 km / +280 m</text>
+
+          <circle class="place hard" cx="648" cy="96" r="11"/>
+          <text class="map-label" x="666" y="92">Koruldi Lakes</text>
+          <text class="map-small" x="666" y="112">10/3 推荐 8-10 km / +600 m</text>
+
+          <circle class="place" cx="898" cy="344" r="11"/>
+          <text class="map-label" x="916" y="340">Zhabeshi</text>
+          <text class="map-small" x="916" y="360">10/4 约 16.1-17.7 km / +760 m</text>
+
+          <circle class="place blue" cx="1128" cy="420" r="12"/>
+          <text class="map-label" x="1036" y="448">Ushguli</text>
+          <text class="map-small" x="1036" y="468">10/5 包车往返</text>
+
+          <circle class="place blue" cx="1162" cy="354" r="10"/>
+          <text class="map-label" x="1032" y="332">Shkhara 方向短走</text>
+          <text class="map-small" x="1032" y="352">推荐 6-10 km / +150-300 m</text>
+
+          <circle class="place blue" cx="1182" cy="276" r="9"/>
+          <text class="map-label" x="1008" y="268">Shkhara Glacier 完整版</text>
+          <text class="map-small" x="1008" y="288">不建议当天硬走全程</text>
+
+          <circle class="place easy" cx="538" cy="412" r="10"/>
+          <text class="map-label" x="456" y="410">Hatsvali / Zuruldi</text>
+          <text class="map-small" x="456" y="430">天气备选</text>
+
+          <rect class="chip" x="630" y="178" width="74" height="28" rx="14"/>
+          <text class="chip-text" x="644" y="197">10/2</text>
+          <rect class="chip" x="572" y="126" width="74" height="28" rx="14"/>
+          <text class="chip-text" x="586" y="145">10/3</text>
+          <rect class="chip" x="726" y="314" width="74" height="28" rx="14"/>
+          <text class="chip-text" x="740" y="333">10/4</text>
+          <rect class="chip" x="1064" y="392" width="74" height="28" rx="14"/>
+          <text class="chip-text" x="1078" y="411">10/5</text>
+
+          <text class="map-tiny" x="450" y="692">注：右图为 Svaneti 重点区域相对位置图，线条用于行程理解，不等同于导航轨迹。</text>
+        </svg>
+      </div>
+      <div class="map-note">这版地图完全静态，直接嵌入 HTML，不需要联网加载底图。优点是稳定清楚；缺点是不能替代真正的地图导航。</div>
+    </section>
+
+    <section class="overview" aria-label="方案概览">
+      <div class="metric"><strong>1 个大本营</strong><span>Mestia 连住 5 晚</span></div>
+      <div class="metric"><strong>4 个徒步日</strong><span>Chalaadi、Koruldi、Zhabeshi、Shkhara</span></div>
+      <div class="metric"><strong>不重装</strong><span>每天只背小包，行李留酒店</span></div>
+      <div class="metric"><strong>保留缓冲</strong><span>10月6日回第比利斯，不压 10月7日航班</span></div>
+    </section>
+
+    <section class="panel">
+      <h2>每日距离与爬升</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>日期</th>
+            <th>路线</th>
+            <th>推荐走法</th>
+            <th>徒步距离</th>
+            <th>爬升</th>
+            <th>判断</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>9/30</td>
+            <td>抵达第比利斯</td>
+            <td>落地后直接入住</td>
+            <td>0-2 km</td>
+            <td>忽略</td>
+            <td><span class="tag road">恢复</span></td>
+          </tr>
+          <tr>
+            <td>10/1</td>
+            <td>第比利斯 → Mestia</td>
+            <td>优先小飞机；备选火车到祖格迪迪再包车/拼车</td>
+            <td>0-3 km</td>
+            <td>忽略</td>
+            <td><span class="tag road">交通日</span></td>
+          </tr>
+          <tr>
+            <td>10/2</td>
+            <td>Chalaadi Glacier</td>
+            <td>从 Mestia 坐车到吊桥起点，往返冰川</td>
+            <td>约 6 km</td>
+            <td>约 +280 m</td>
+            <td><span class="tag easy">适应日</span></td>
+          </tr>
+          <tr>
+            <td>10/3</td>
+            <td>Koruldi Lakes</td>
+            <td>4x4 到 Mestia Cross，再轻装走到湖区后返回；不继续 Guli Pass</td>
+            <td>约 8-10 km</td>
+            <td>约 +600 m</td>
+            <td><span class="tag hard">偏强</span></td>
+          </tr>
+          <tr>
+            <td>10/4</td>
+            <td>Mestia → Zhabeshi</td>
+            <td>走原穿越第一段，司机在 Zhabeshi 接回 Mestia</td>
+            <td>约 16.1-17.7 km</td>
+            <td>约 +760-770 m</td>
+            <td><span class="tag">经典主线</span></td>
+          </tr>
+          <tr>
+            <td>10/5</td>
+            <td>Ushguli + Shkhara Glacier 方向</td>
+            <td>包车往返 Ushguli；根据路况坐车深入山谷后短走</td>
+            <td>推荐 6-10 km；全程约 16-19.5 km</td>
+            <td>推荐 +150-300 m；全程约 +600 m</td>
+            <td><span class="tag blue">车游+短走</span></td>
+          </tr>
+          <tr>
+            <td>10/6</td>
+            <td>Mestia → 第比利斯</td>
+            <td>全天返程，给山路和天气留缓冲</td>
+            <td>0-2 km</td>
+            <td>忽略</td>
+            <td><span class="tag road">交通日</span></td>
+          </tr>
+          <tr>
+            <td>10/7</td>
+            <td>第比利斯 → 返程</td>
+            <td>城市轻松半日，晚上去机场</td>
+            <td>0-5 km</td>
+            <td>城市坡度</td>
+            <td><span class="tag easy">收尾</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="days">
+      <article class="day">
+        <div class="date">10/2</div>
+        <div>
+          <h3>Chalaadi Glacier 适应日</h3>
+          <p>坐车到 Mestiachala 河吊桥，从桥到冰川脚下往返。强度轻，孩子容易进入状态，也能马上看到冰川景观。</p>
+        </div>
+        <div class="stats">
+          <span><strong>距离</strong> 约 6 km</span>
+          <span><strong>爬升</strong> 约 +280 m</span>
+          <span><strong>用时</strong> 1.5-2.5 h 徒步</span>
+        </div>
+      </article>
+
+      <article class="day">
+        <div class="date">10/3</div>
+        <div>
+          <h3>Koruldi Lakes 精华高山湖</h3>
+          <p>完整从 Mestia 徒步往返偏硬，推荐用 4x4 送到 Mestia Cross 附近，再走到湖区。这样保留 Ushba 和湖泊视野，削掉最陡、最枯燥的下半段。</p>
+        </div>
+        <div class="stats">
+          <span><strong>推荐距离</strong> 约 8-10 km</span>
+          <span><strong>推荐爬升</strong> 约 +600 m</span>
+          <span><strong>完整版本</strong> 约 16 km / +1200 m</span>
+        </div>
+      </article>
+
+      <article class="day">
+        <div class="date">10/4</div>
+        <div>
+          <h3>Mestia 到 Zhabeshi：保留原穿越第一段</h3>
+          <p>轻装从 Mestia 走到 Zhabeshi，司机接回 Mestia，既有塔楼村庄，也有 Svaneti 山谷视野。若当天雨大，可改 Hatsvali/Zuruldi 低强度组合。</p>
+        </div>
+        <div class="stats">
+          <span><strong>距离</strong> 约 16.1-17.7 km</span>
+          <span><strong>爬升</strong> 约 +760-770 m</span>
+          <span><strong>下降</strong> 约 -520 m</span>
+        </div>
+      </article>
+
+      <article class="day">
+        <div class="date">10/5</div>
+        <div>
+          <h3>Ushguli + Shkhara Glacier 方向</h3>
+          <p>包车从 Mestia 往返 Ushguli。村落本身值得慢看；Shkhara Glacier 方向建议根据当天体力和路况短走，不建议在当天往返车程基础上硬走完整冰川路线。</p>
+        </div>
+        <div class="stats">
+          <span><strong>推荐距离</strong> 6-10 km</span>
+          <span><strong>推荐爬升</strong> +150-300 m</span>
+          <span><strong>完整版本</strong> 16-19.5 km / 约 +600 m</span>
+        </div>
+      </article>
+    </section>
+
+    <section class="notes-grid">
+      <div class="note">
+        <h2>为什么这样排</h2>
+        <ul>
+          <li>强度从轻到强：Chalaadi 先适应，Koruldi 和 Zhabeshi 放中间。</li>
+          <li>Mestia 连住，所有大行李留酒店，孩子只背小包。</li>
+          <li>取消 Adishi 河、Chkhunderi Pass、Latpari Lake、Guli Pass 这几个不适合亲子轻装日返的高风险点。</li>
+          <li>10月6日回第比利斯，不把山区交通压到 10月7日返程当天。</li>
+        </ul>
+      </div>
+
+      <div class="note">
+        <h2>天气替换</h2>
+        <ul>
+          <li>Koruldi 天气差：改 Hatsvali/Zuruldi Ridge，坐缆车后短走，约 4-6 km，爬升很小。</li>
+          <li>Ushguli 路况差：取消 Ushguli，改 Chalaadi 二刷或 Mestia 周边短线。</li>
+          <li>Zhabeshi 当天雨大：走 Mestia 老城、Svaneti Museum、Hatsvali 低强度组合。</li>
+          <li>若 10月5日已有坏天气苗头：提前返回第比利斯或至少返回祖格迪迪方向。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:18px">
+      <h2>资料来源</h2>
+      <ul>
+        <li><a href="https://www.triplinkhub.com/en/georgia/mestia/places/chalaadi-glacier">TripLinkHub: Chalaadi Glacier</a></li>
+        <li><a href="https://thegeorgianguide.com/hiking/koruldi-lakes-hike/">The Georgian Guide: Koruldi Lakes Hike</a></li>
+        <li><a href="https://georgia.travel/hiking-mestiya-zabesi">Georgia Travel: Mestia - Zhabeshi</a></li>
+        <li><a href="https://www.caucasus-trekking.com/Download/From_Mestia_to_Ushguli.pdf">Caucasus Trekking: Mestia to Ushguli PDF</a></li>
+        <li><a href="https://georgia.travel/ushguli-shkhara-glacier">Georgia Travel: Ushguli - Shkhara Glacier</a></li>
+        <li><a href="https://www.alltrails.com/trail/georgia/samegrelo-zemo-svaneti/ushguli-to-glacier-via-enguri">AllTrails: Ushguli to Shkhara Glacier via Enguri</a></li>
+      </ul>
+      <footer>生成日期：2026-05-21。距离和爬升为规划级估算，不替代实际 GPX、天气预报、当地道路情况和向导建议。</footer>
+    </section>
+  </main>
+</body>
+</html>
