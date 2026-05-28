@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>体育资产精简框架</title>
+  <style>
+    :root { color-scheme: light; --ink:#1f2933; --muted:#667085; --line:#dde4ec; --bg:#f5f7f8; --panel:#fff; --accent:#0f766e; --accent2:#7c5f37; --soft:#edf6f4; --mark:#fff3bf; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif; color:var(--ink); background:var(--bg); line-height:1.72; }
+    header { background:linear-gradient(125deg,#13333b,#0f766e 56%,#6f7040); color:#fff; padding:56px 22px 104px; }
+    .inner, .layout { width:min(1180px, calc(100% - 32px)); margin:0 auto; }
+    h1 { margin:0 0 12px; font-size:clamp(32px,5vw,54px); line-height:1.14; letter-spacing:0; }
+    header p { margin:0; max-width:900px; color:rgba(255,255,255,.88); font-size:17px; }
+    .chips { display:flex; gap:8px; flex-wrap:wrap; margin-top:18px; }
+    .chip { background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.28); border-radius:999px; padding:5px 10px; font-size:13px; color:#fff; }
+    .layout { display:grid; grid-template-columns:260px minmax(0,1fr); gap:18px; margin-top:-58px; padding-bottom:64px; align-items:start; }
+    nav, article { background:var(--panel); border:1px solid var(--line); border-radius:10px; box-shadow:0 16px 44px rgba(31,41,51,.08); }
+    nav { position:sticky; top:16px; padding:18px; max-height:calc(100vh - 32px); overflow:auto; }
+    nav h2 { margin:0 0 10px; padding:0; border:0; font-size:16px; color:#123a39; }
+    nav a { display:block; padding:6px 0; color:#37515a; text-decoration:none; font-size:14px; line-height:1.35; border-bottom:1px solid #f0f2f4; }
+    nav a:hover { color:var(--accent); }
+    nav a.lv1 { font-weight:800; }
+    nav a.lv2 { padding-left:12px; }
+    article { padding:32px; overflow:hidden; }
+    h1,h2,h3,h4 { letter-spacing:0; }
+    article h1 { color:#142328; font-size:34px; margin:0 0 20px; }
+    h2 { margin:38px 0 14px; font-size:26px; line-height:1.28; border-top:1px solid var(--line); padding-top:24px; color:#143b3a; }
+    article h1 + h2 { margin-top:20px; }
+    h3 { margin:28px 0 10px; font-size:21px; line-height:1.35; color:#224b48; }
+    h4 { margin:20px 0 8px; font-size:17px; color:#30414a; }
+    p { margin:10px 0; }
+    a { color:#0b5f92; text-underline-offset:3px; }
+    strong { color:#142328; }
+    mark { background:var(--mark); padding:1px 4px; border-radius:4px; }
+    .wikilink { color:var(--accent); font-weight:700; }
+    blockquote { margin:16px 0; padding:13px 16px; background:var(--soft); border-left:4px solid var(--accent); color:#28464a; border-radius:0 8px 8px 0; }
+    blockquote p { margin:4px 0; }
+    ul { margin:8px 0 16px; padding-left:1.25rem; }
+    li { margin:5px 0; }
+    hr { border:0; border-top:1px solid var(--line); margin:30px 0; }
+    code { background:#eef2f7; padding:2px 5px; border-radius:5px; }
+    .table-wrap { width:100%; overflow:auto; margin:18px 0 28px; border:1px solid var(--line); border-radius:8px; }
+    table { width:100%; border-collapse:collapse; min-width:760px; background:#fff; }
+    th,td { padding:11px 12px; border-bottom:1px solid var(--line); border-right:1px solid #edf0f3; vertical-align:top; text-align:left; }
+    th:last-child,td:last-child { border-right:0; }
+    th { background:#eaf5f2; color:#133d3c; font-weight:800; white-space:nowrap; }
+    tbody tr:nth-child(even) td { background:#fbfcfb; }
+    footer { margin-top:28px; color:var(--muted); font-size:13px; }
+    @media (max-width: 900px) { .layout { display:block; } nav { position:relative; top:auto; margin-bottom:16px; max-height:none; } article { padding:24px 16px; } header { padding-top:40px; } }
+  </style>
+</head>
+<body>
+  <header>
+      <p>从 Obsidian 笔记生成的网页版本，完整保留体育资产战略任务、资产类型、评估指标、风险折扣、权重设计和全球趋势。</p>
+      <h1>体育资产精简框架</h1>
+      <div class="meta"><span class="chip">ANTA 业务价值链</span><span class="chip">体育资产</span><span class="chip">生成日期 2026-05-28</span></div>
+    </header>
+  <main class="layout">
+    <nav aria-label="目录">
+      <h2>目录</h2><a class="lv1" href="#E4BD93E882B2E8B584E4BAA7E7B2BEE7AE80E6A186E69EB6">体育资产精简框架</a>
+<a class="lv2" href="#E4B880E58FA5E8AF9DE588A4E696AD">一句话判断</a>
+<a class="lv2" href="#E4B880E38081E4B889E7B1BBE68898E795A5E4BBBBE58AA1">一、三类战略任务</a>
+<a class="lv2" href="#E4BA8CE38081E4B889E7B1BBE4BD93E882B2E8B584E4BAA7">二、三类体育资产</a>
+<a class="lv2" href="#E4B889E38081E585B7E4BD93E8B584E4BAA7E7B1BBE59E8B">三、具体资产类型</a>
+<a class="lv2" href="#E59B9BE38081E4BDBFE794A8E6B7B1E5BAA6EFBC9AE4BB8EE6B585E588B0E6B7B1E4BA94E5B182">四、使用深度：从浅到深五层</a>
+<a class="lv2" href="#E4BA94E38081E8AF84E4BCB0E6B581E7A88B">五、评估流程</a>
+<a class="lv2" href="#E585ADE38081E585ADE5A4A7E7BBB4E5BAA6E79A84E585B7E4BD93E68C87E6A087">六、六大维度的具体指标</a>
+<a class="lv2" href="#E4B883E38081E68C87E6A087E58FA3E5BE84E4B88EE8AF84E58886E696B9E6B395">七、指标口径与评分方法</a>
+<a class="lv2" href="#E585ABE38081E4B889E7B1BBE8B584E4BAA7E79A84E59FBAE7A180E69D83E9878D">八、三类资产的基础权重</a>
+<a class="lv2" href="#E4B99DE38081E9A38EE999A9E68A98E689A3">九、风险折扣</a>
+<a class="lv2" href="#E58D81E38081E8B584E4BAA7E7BB84E59088E9858DE7BDAE">十、资产组合配置</a>
+<a class="lv2" href="#E58D81E4B880E38081E585A8E79083E59381E7898CE4BDBFE794A8E4BD93E882B2E8B584E4BAA7E79A84E8B68BE58ABF">十一、全球品牌使用体育资产的趋势</a>
+<a class="lv2" href="#E58D81E4BA8CE38081E5B8B8E8A781E8AFAFE58CBA">十二、常见误区</a>
+<a class="lv2" href="#E58685E983A8E6938DE4BD9CE6A8A1E69DBF">内部操作模板</a>
+<a class="lv2" href="#E69C80E7BB88E58E9FE58899">最终原则</a></nav>
+    <article>
+<h1 id="E4BD93E882B2E8B584E4BAA7E7B2BEE7AE80E6A186E69EB6">体育资产精简框架</h1>
+<blockquote><p>来源整合：<span class="wikilink">体育资产</span> 为主，择要吸收 <span class="wikilink">体育资产_旧</span> 中关于资产类型、使用深度、全球趋势和常见误区的内容。</p></blockquote>
+<h2 id="E4B880E58FA5E8AF9DE588A4E696AD">一句话判断</h2>
+<p>体育资产不是广告位，也不是单纯赞助权益，而是品牌围绕运动项目、消费者场景和竞争格局配置的一组战略资产组合。</p>
+<p>它最终要回答四个问题：</p>
+<ul>
+<li>能不能提升品牌高度？</li>
+<li>能不能建立具体品类心智？</li>
+<li>能不能获取用户、会员和生意？</li>
+<li>能不能控制关键入口，阻止竞品形成优势？</li>
+</ul>
+<p>最核心的判断是：</p>
+<blockquote><p>体育资产价值不是单纯看曝光，而是看它能否提升品牌、证明品类、触达对的人、制造内容、转化用户，并控制关键稀缺资源。</p></blockquote>
+<hr>
+<h2 id="E4B880E38081E4B889E7B1BBE68898E795A5E4BBBBE58AA1">一、三类战略任务</h2>
+<p>体育资产首先要按战略任务分类，而不是按资源形式分类。</p>
+<div class="table-wrap"><table><thead><tr><th>战略任务</th><th>核心问题</th><th>典型目标</th></tr></thead><tbody><tr><td>势能任务</td><td>它是否帮助品牌建立高度和社会影响？</td><td>品牌地位、国家级背书、行业存在感、破圈声量</td></tr><tr><td>专业任务</td><td>它是否帮助品牌建立品类专业心智？</td><td>跑步、篮球、训练、户外等具体品类可信度</td></tr><tr><td>增长任务</td><td>它是否帮助品牌获取用户、会员和生意？</td><td>拉新、试穿、转化、复购、社群沉淀</td></tr></tbody></table></div>
+<p>一个资产可以同时承担多个任务，但必须先定义主任务。否则评估会混乱：同一个上海马拉松，既可以被当作跑步专业资产，也可以被当作城市用户增长资产，还可以被当作品牌势能资产。</p>
+<hr>
+<h2 id="E4BA8CE38081E4B889E7B1BBE4BD93E882B2E8B584E4BAA7">二、三类体育资产</h2>
+<h3 id="1.-E58ABFE883BDE8B584E4BAA7EFBC9AE8A7A3E586B3E59381E7898CE9AB98E5BAA6">1. 势能资产：解决品牌高度</h3>
+<p>代表资产：</p>
+<ul>
+<li>奥运会、亚运会、全运会、世界杯等综合大赛</li>
+<li>国家队、国家级协会、代表团资源</li>
+<li>顶级巨星、冠军运动员、历史性体育时刻</li>
+<li>顶级职业联赛或国际大赛的关键权益</li>
+</ul>
+<p>核心价值：</p>
+<ul>
+<li>建立品牌社会地位和行业高度</li>
+<li>强化国家级信任和官方背书</li>
+<li>放大品牌精神和历史性时刻</li>
+<li>防止竞品独占关键势能资源</li>
+</ul>
+<p>注意点：</p>
+<p>势能资产不能只做赛期 Campaign，要做备战期、选拔期、比赛期、赛后沉淀的完整周期。官方赞助只是起点，真正有效的是把资源转化为运动员故事、国家队装备、科技产品、限量商品、城市活动和全民参与内容。</p>
+<h3 id="2.-E4B893E4B89AE8B584E4BAA7EFBC9AE8A7A3E586B3E59381E7B1BBE58FAFE4BFA1E5BAA6">2. 专业资产：解决品类可信度</h3>
+<p>代表资产：</p>
+<ul>
+<li>专业运动员、垂类高手、潜力新星</li>
+<li>专项国家队、协会、教练专家、科研合作</li>
+<li>职业赛事、专业联赛、垂类赛事</li>
+<li>科技实验室、训练体系、专业内容资源</li>
+</ul>
+<p>核心价值：</p>
+<ul>
+<li>证明产品专业性和性能可信度</li>
+<li>支撑品类科技叙事</li>
+<li>占领跑步、篮球、训练、户外、网球等具体品类心智</li>
+<li>在头部运动员和头部赛事稀缺时形成防守卡位</li>
+</ul>
+<p>注意点：</p>
+<p>专业资产最怕只停留在背书层。它必须被产品化和内容化，例如签名鞋、冠军同款、训练装备、科技拆解、专业训练内容、运动员训练纪录片。</p>
+<h3 id="3.-E58F82E4B88EE5A29EE995BFE8B584E4BAA7EFBC9AE8A7A3E586B3E794A8E688B7E5928CE7949FE6848F">3. 参与增长资产：解决用户和生意</h3>
+<p>代表资产：</p>
+<ul>
+<li>马拉松、越野跑、骑行、铁三、HYROX</li>
+<li>校园赛事、城市挑战赛、跑团、训练营</li>
+<li>App 挑战、会员赛事、门店试穿活动</li>
+<li>场馆、训练馆、俱乐部、教练、KOC、社群主理人</li>
+</ul>
+<p>核心价值：</p>
+<ul>
+<li>让消费者本人参与运动，而不只是观看运动</li>
+<li>形成试穿、训练、比赛、复购的闭环</li>
+<li>沉淀会员、数据和社群关系</li>
+<li>把品牌从曝光带入真实使用场景</li>
+</ul>
+<p>注意点：</p>
+<p>大众赛事的关键不是比赛日，而是赛前 8-12 周训练周期、比赛周装备体验、赛后恢复复购、下一场赛事报名。能做出这个闭环，赛事才是增长引擎。</p>
+<hr>
+<h2 id="E4B889E38081E585B7E4BD93E8B584E4BAA7E7B1BBE59E8B">三、具体资产类型</h2>
+<div class="table-wrap"><table><thead><tr><th>资源类型</th><th>最强价值</th><th>更适合承担的任务</th></tr></thead><tbody><tr><td>个人运动员</td><td>人格化资产、专业背书、情感故事、产品共创</td><td>势能 / 专业</td></tr><tr><td>运动队/俱乐部</td><td>粉丝身份、地域认同、稳定赛季曝光</td><td>势能 / 增长</td></tr><tr><td>国家队/协会</td><td>国家级信任、专业权威、政策与公共价值</td><td>势能 / 专业</td></tr><tr><td>职业联赛/杯赛</td><td>内容、赛历、媒体权益、规则级入口</td><td>专业 / 势能</td></tr><tr><td>综合大赛</td><td>全民声量、国家叙事、品牌高度</td><td>势能</td></tr><tr><td>大众参与赛事</td><td>试穿、获客、会员、社群、转化</td><td>增长 / 专业</td></tr><tr><td>精英垂类赛事</td><td>高端定位、圈层认同、VIP 经营</td><td>势能 / 专业 / 高端增长</td></tr><tr><td>场馆/训练空间</td><td>日常触点、体验、训练、会员转化</td><td>增长</td></tr><tr><td>教练/KOC/社群主理人</td><td>信任转化、真实口碑、新品教育</td><td>增长 / 专业</td></tr><tr><td>自有体育 IP / 数字平台</td><td>数据资产、长期关系、低依赖外部权益</td><td>增长</td></tr></tbody></table></div>
+<p>补充判断：</p>
+<p>旧版笔记中提到的“圈层资产”不一定要单独成为第四大类。更适合把它理解为高端化或会员经营目标下的一种配置倾斜，通常通过网球、高尔夫、滑雪、F1、精英骑行、高端俱乐部等资源实现。</p>
+<hr>
+<h2 id="E59B9BE38081E4BDBFE794A8E6B7B1E5BAA6EFBC9AE4BB8EE6B585E588B0E6B7B1E4BA94E5B182">四、使用深度：从浅到深五层</h2>
+<p>体育资产不是买完权益就结束，关键看品牌能把资源运营到哪一层。</p>
+<div class="table-wrap"><table><thead><tr><th>层级</th><th>使用方式</th><th>价值</th><th>典型动作</th></tr></thead><tbody><tr><td>第一层</td><td>露出型</td><td>声量</td><td>Logo、场边广告、赛事背板、队服标识</td></tr><tr><td>第二层</td><td>背书型</td><td>专业可信度</td><td>官方供应商、国家队同款、运动员装备</td></tr><tr><td>第三层</td><td>内容型</td><td>品牌记忆</td><td>纪录片、训练日常、赛事故事、科技拆解</td></tr><tr><td>第四层</td><td>产品型</td><td>商业转化</td><td>签名鞋、冠军同款、赛事限定、联名系列</td></tr><tr><td>第五层</td><td>生态型</td><td>长期用户关系</td><td>训练营、社群、App 挑战、俱乐部、青训</td></tr></tbody></table></div>
+<p>全球趋势是从第一层、第二层走向第四层和第五层。PUMA 与 HYROX 的合作就是典型例子：不只是官方鞋服，而是把 HYROX 作为产品科技展示、精英运动员签约、专属系列开发、社群参与和项目共建的平台。</p>
+<hr>
+<h2 id="E4BA94E38081E8AF84E4BCB0E6B581E7A88B">五、评估流程</h2>
+<p>建议形成统一流程：</p>
+<blockquote><p>战略适配 Gate → 六大价值维度加权评分 → 风险折扣 → 组合配置判断</p></blockquote>
+<h3 id="Gate-0EFBC9AE68898E795A5E98082E9858DE7AD9BE98089">Gate 0：战略适配筛选</h3>
+<p>先问：</p>
+<ul>
+<li>这个资产服务哪个品牌战略？</li>
+<li>它对应哪个运动项目或消费场景？</li>
+<li>它和品牌目标人群是否匹配？</li>
+<li>它是否能被品牌运营，而不是只买来摆着？</li>
+</ul>
+<p>如果战略不适配，不进入后续打分。</p>
+<h3 id="E585ADE5A4A7E4BBB7E580BCE7BBB4E5BAA6">六大价值维度</h3>
+<div class="table-wrap"><table><thead><tr><th>维度</th><th>核心问题</th></tr></thead><tbody><tr><td>品牌资产贡献</td><td>是否提升品牌高度、认知、好感、信任和差异化？</td></tr><tr><td>品类心智贡献</td><td>是否让品牌在具体运动品类中更专业、更可信？</td></tr><tr><td>受众质量</td><td>是否触达对的人，而不只是触达很多人？</td></tr><tr><td>内容与传播能力</td><td>是否能持续制造内容、故事和讨论？</td></tr><tr><td>激活与转化能力</td><td>是否能带来试穿、会员、门店、电商和销售动作？</td></tr><tr><td>战略控制与防守价值</td><td>是否控制关键入口，或阻止竞品形成优势？</td></tr></tbody></table></div>
+<p>最重要的修正是：战略防守价值不应归入“风险折扣”，而应成为独立价值维度。它回答的不是“这个资源有什么风险”，而是：</p>
+<blockquote><p>如果我们不拿，竞品拿走会对我们造成多大损失？</p></blockquote>
+<p>防守价值高的资源包括：</p>
+<ul>
+<li>顶级唯一性资源：奥运、国家队、顶级巨星</li>
+<li>品类权威资源：头部赛事、协会、核心运动员</li>
+<li>新兴运动早期入口：HYROX、城市骑行、越野跑等</li>
+<li>核心城市用户入口：上马、北马、核心跑团网络</li>
+<li>长期成长型运动员：未来可能成为品类代言人的新星</li>
+</ul>
+<hr>
+<h2 id="E585ADE38081E585ADE5A4A7E7BBB4E5BAA6E79A84E585B7E4BD93E68C87E6A087">六、六大维度的具体指标</h2>
+<h3 id="1.-E59381E7898CE8B584E4BAA7E8B4A1E78CAE">1. 品牌资产贡献</h3>
+<p>衡量体育资产能否提升品牌整体认知、形象、信任和势能。</p>
+<div class="table-wrap"><table><thead><tr><th>指标</th><th>为什么重要</th><th>如何评估</th></tr></thead><tbody><tr><td>品牌认知提升</td><td>判断资源是否让更多目标消费者知道品牌</td><td>赞助前后调研；看提示认知、无提示认知变化；重点看目标人群而非泛人群</td></tr><tr><td>品牌好感 / 偏好提升</td><td>认知不等于喜欢，品牌资产最终要转化为偏好</td><td>品牌追踪；询问“更喜欢 / 更愿意选择哪个品牌”</td></tr><tr><td>品牌形象关键词提升</td><td>判断资源是否改变品牌联想，如专业、高端、年轻、国际化、国家队</td><td>消费者调研；追踪关键词联想占比变化</td></tr><tr><td>Share of Voice / Share of Search</td><td>衡量品牌在赛事周期中是否获得足够市场注意力</td><td>社媒声量、搜索指数、媒体报道、电商搜索，并与竞品对比</td></tr><tr><td>品牌信任度 / 权威感提升</td><td>尤其适用于国家队、奥运、专业赛事</td><td>问卷设置“值得信赖”“专业权威”“代表中国/国际水平”等指标</td></tr></tbody></table></div>
+<p>使用说明：</p>
+<p>品牌资产贡献最适合评估势能资产，如奥运、亚运、国家队、顶级巨星。但不能只看曝光量，必须看消费者心智是否真的变化。</p>
+<h3 id="2.-E59381E7B1BBE5BF83E699BAE8B4A1E78CAE">2. 品类心智贡献</h3>
+<p>衡量体育资产能否帮助品牌在某个具体运动品类中建立专业认知。</p>
+<div class="table-wrap"><table><thead><tr><th>指标</th><th>为什么重要</th><th>如何评估</th></tr></thead><tbody><tr><td>品类第一提及率</td><td>判断消费者想到某运动时是否想到品牌</td><td>在跑步、篮球、训练、网球等目标人群中调研：“想到跑鞋/训练鞋首先想到谁？”</td></tr><tr><td>品类专业度评分</td><td>判断消费者是否相信品牌在该运动中专业</td><td>目标运动人群问卷，1-10 分评分，并与 Nike、Adidas、ASICS、YONEX 等竞品对比</td></tr><tr><td>产品科技认知度</td><td>体育资产最终要支撑产品科技，而不是空泛专业</td><td>追踪消费者是否知道核心科技名称、功能、适用场景</td></tr><tr><td>专业人群推荐度</td><td>专业跑者、教练、球友、KOC 的认可比泛大众更有价值</td><td>对跑团长、教练、球馆、训练馆、专业社群做小样本深访或 NPS</td></tr><tr><td>真实赛场使用率 / 曝光质量</td><td>运动员或参赛者真实使用，比广告露出更可信</td><td>统计比赛中品牌装备穿着率、领奖台曝光、PB/冠军/破纪录同款出现频次</td></tr></tbody></table></div>
+<p>使用说明：</p>
+<p>这是评估专业资产的核心维度。一个资源如果不能让品牌在具体品类里变得更专业，就很难算真正有体育资产价值。</p>
+<h3 id="3.-E58F97E4BC97E8B4A8E9878F">3. 受众质量</h3>
+<p>衡量体育资产触达的人是否是品牌真正想要的人。</p>
+<div class="table-wrap"><table><thead><tr><th>指标</th><th>为什么重要</th><th>如何评估</th></tr></thead><tbody><tr><td>目标人群重合度</td><td>不是触达越多人越好，而是触达对的人</td><td>对比赛事/资源受众画像与品牌目标客群画像：年龄、城市、收入、运动频率、消费偏好</td></tr><tr><td>有效触达人数</td><td>过滤掉无效曝光，衡量真正有价值触达</td><td>目标人群占比 × 总触达人数；或只统计目标城市/目标圈层触达</td></tr><tr><td>运动参与深度</td><td>高频运动者比泛兴趣人群更可能购买和复购</td><td>看受众每周运动次数、参赛次数、训练年限、装备购买频率</td></tr><tr><td>消费能力与客单潜力</td><td>高价值体育资源往往不只是规模，而是客单和复购</td><td>会员数据、电商客单、品类购买记录、调研收入区间</td></tr><tr><td>影响力密度</td><td>有些人数量少，但能影响很多人购买</td><td>识别教练、跑团长、球馆主理人、KOC、装备评测者占比和传播能力</td></tr></tbody></table></div>
+<p>使用说明：</p>
+<p>受众质量特别重要，因为很多资源“看起来很大”，但真正目标消费者比例不高。高尔夫人数不大，但用户质量高；大众跑步人数大，但需要区分新手、进阶和核心跑者。</p>
+<h3 id="4.-E58685E5AEB9E4B88EE4BCA0E692ADE883BDE58A9B">4. 内容与传播能力</h3>
+<p>衡量体育资产能否持续产生故事、话题、视觉符号和社交内容。</p>
+<div class="table-wrap"><table><thead><tr><th>指标</th><th>为什么重要</th><th>如何评估</th></tr></thead><tbody><tr><td>内容产出量</td><td>判断资源是否有持续内容供给</td><td>统计官方内容、媒体报道、运动员内容、用户内容数量</td></tr><tr><td>内容互动率</td><td>传播质量比单纯曝光重要</td><td>点赞、评论、转发、收藏、完播率，并与品牌日常内容基准对比</td></tr><tr><td>UGC 规模与质量</td><td>大众赛事和社群资产的核心价值来自用户自传播</td><td>小红书、抖音、微博、朋友圈话题内容量；区分正向、真实、品牌相关内容</td></tr><tr><td>高光时刻捕捉能力</td><td>重大成绩、冠军、破纪录、名场面会形成长期资产</td><td>评估资源是否容易产生冠军、PB、破纪录、反转、人物故事</td></tr><tr><td>叙事独占度</td><td>判断品牌是否能拥有这个故事，而不是大家都能讲</td><td>看内容中品牌是否自然出现，是否有产品、运动员、赛事权益的强绑定</td></tr></tbody></table></div>
+<p>使用说明：</p>
+<p>内容传播能力不等于媒体曝光。真正有价值的是这个资源是否能不断给品牌提供可讲述、可剪辑、可二次传播的内容素材。</p>
+<h3 id="5.-E6BF80E6B4BBE4B88EE8BDACE58C96E883BDE58A9B">5. 激活与转化能力</h3>
+<p>衡量品牌能否把体育资产转化为会员、体验、销售、复购和长期用户关系。</p>
+<div class="table-wrap"><table><thead><tr><th>指标</th><th>为什么重要</th><th>如何评估</th></tr></thead><tbody><tr><td>会员 / 线索获取量</td><td>体育资源要尽量沉淀到品牌私域</td><td>赛事报名导流、扫码注册、App 下载、训练营报名、CRM 入库</td></tr><tr><td>试用 / 体验转化率</td><td>体育用品尤其需要真实体验</td><td>试穿、试跑、试打、试骑人数，以及后续购买比例</td></tr><tr><td>关联品类销售提升</td><td>判断资源是否真正拉动业务</td><td>对比赛事前后目标品类 GMV；使用城市对照组或未触达用户对照组</td></tr><tr><td>复购与留存</td><td>一次购买不是核心，运动用户生命周期才是价值</td><td>30/60/90 天留存、复购率、训练营续报、赛事复赛率</td></tr><tr><td>单位转化成本 CAC / CPA</td><td>判断资源是否比其他营销方式更有效率</td><td>总投入 ÷ 新增有效会员 / 购买用户 / 高价值用户</td></tr></tbody></table></div>
+<p>使用说明：</p>
+<p>这个维度对参与增长资产最关键。但它不应只看短期销售，也要看是否形成训练习惯、会员关系和长期复购。</p>
+<h3 id="6.-E68898E795A5E68EA7E588B6E4B88EE998B2E5AE88E4BBB7E580BC">6. 战略控制与防守价值</h3>
+<p>衡量体育资产是否具有稀缺性、排他性和战略卡位价值。</p>
+<div class="table-wrap"><table><thead><tr><th>指标</th><th>为什么重要</th><th>如何评估</th></tr></thead><tbody><tr><td>资源稀缺性</td><td>稀缺资源一旦错过，可能长期无法获得</td><td>判断资源是否唯一、头部、不可替代，如国家队、头部赛事、顶级运动员</td></tr><tr><td>权益排他性</td><td>没有排他，竞品容易共享心智</td><td>看合同是否有行业排他、品类排他、城市排他、赛事场景排他</td></tr><tr><td>心智卡位能力</td><td>判断资源是否能让品牌和某运动/人群强绑定</td><td>调研消费者是否认为“这个品牌代表该运动/赛事/圈层”</td></tr><tr><td>竞品阻断价值</td><td>有些资源即使短期 ROI 一般，也值得防守</td><td>评估竞品若获得该资源，对我方品类心智、渠道、用户入口的损害</td></tr><tr><td>长期控制与延展性</td><td>短约曝光不如长期共建</td><td>看是否可续约、可共建赛事、可开发产品、可进入会员与社群体系</td></tr></tbody></table></div>
+<p>使用说明：</p>
+<p>这是体育资产区别于普通广告资源的重要维度。很多资源的价值不只是“我拿了有什么好处”，还包括“如果竞品拿了，我会失去什么”。</p>
+<hr>
+<h2 id="E4B883E38081E68C87E6A087E58FA3E5BE84E4B88EE8AF84E58886E696B9E6B395">七、指标口径与评分方法</h2>
+<p>不是所有维度都能完全量化。建议分成三类评估口径。</p>
+<div class="table-wrap"><table><thead><tr><th>口径</th><th>适合指标</th><th>使用方式</th></tr></thead><tbody><tr><td>硬数据指标</td><td>曝光量、搜索指数、会员新增、销售提升、转化率、复购率、内容互动、参与人数</td><td>可以直接进入量化评分</td></tr><tr><td>调研型指标</td><td>品牌好感度、品类专业认知、高端感、目标人群偏好、信任度、心智卡位</td><td>通过消费者调研、运动人群调研、会员调研获得</td></tr><tr><td>专家判断型指标</td><td>资源稀缺性、战略防守价值、竞品阻断价值、长期延展性、调性匹配风险</td><td>通过专家评分、管理层评审、竞品推演形成结构化判断</td></tr></tbody></table></div>
+<p>推荐采用 1-5 分制：</p>
+<div class="table-wrap"><table><thead><tr><th>分数</th><th>含义</th></tr></thead><tbody><tr><td>1</td><td>价值低，不明显</td></tr><tr><td>2</td><td>有一定价值，但弱</td></tr><tr><td>3</td><td>中等价值，可考虑</td></tr><tr><td>4</td><td>较强价值，值得投入</td></tr><tr><td>5</td><td>战略级价值，应优先争取</td></tr></tbody></table></div>
+<p>每个维度下不需要所有指标同等重要。可以先给每个维度一个总分，再进入三类资产的差异化权重。</p>
+<hr>
+<h2 id="E585ABE38081E4B889E7B1BBE8B584E4BAA7E79A84E59FBAE7A180E69D83E9878D">八、三类资产的基础权重</h2>
+<div class="table-wrap"><table><thead><tr><th>维度</th><th>势能资产</th><th>专业资产</th><th>参与增长资产</th></tr></thead><tbody><tr><td>品牌资产贡献</td><td>30%</td><td>15%</td><td>10%</td></tr><tr><td>品类心智贡献</td><td>15%</td><td>30%</td><td>20%</td></tr><tr><td>受众质量</td><td>10%</td><td>15%</td><td>20%</td></tr><tr><td>内容与传播能力</td><td>15%</td><td>15%</td><td>15%</td></tr><tr><td>激活与转化能力</td><td>15%</td><td>10%</td><td>25%</td></tr><tr><td>战略控制与防守价值</td><td>15%</td><td>15%</td><td>10%</td></tr></tbody></table></div>
+<p>权重不是资产天然决定的，而是品牌购买这个资产的战略目的决定的。</p>
+<p>如果一个资产承担多个战略任务，不要强行归类，而是用任务占比混合权重：</p>
+<blockquote><p>某维度最终权重 = 势能占比 × 势能权重 + 专业占比 × 专业权重 + 增长占比 × 增长权重</p></blockquote>
+<p>例：上海马拉松如果定位为势能 20%、专业 40%、增长 40%，则最终权重约为：</p>
+<div class="table-wrap"><table><thead><tr><th>维度</th><th>权重</th></tr></thead><tbody><tr><td>品类心智贡献</td><td>23%</td></tr><tr><td>激活与转化能力</td><td>17%</td></tr><tr><td>品牌资产贡献</td><td>16%</td></tr><tr><td>受众质量</td><td>16%</td></tr><tr><td>内容与传播能力</td><td>15%</td></tr><tr><td>战略控制与防守价值</td><td>13%</td></tr></tbody></table></div>
+<p>这符合上马的真实属性：它不是纯大众赛事，也不是奥运级势能资产，而是兼具跑步专业心智、城市势能和用户参与价值。</p>
+<hr>
+<h2 id="E4B99DE38081E9A38EE999A9E68A98E689A3">九、风险折扣</h2>
+<p>资产价值分高，不代表一定值得买。还要看风险折扣。</p>
+<div class="table-wrap"><table><thead><tr><th>风险类型</th><th>权重</th><th>看什么</th></tr></thead><tbody><tr><td>权益与排他风险</td><td>20%</td><td>权益是否清晰、竞品是否可伏击、是否有排他条款</td></tr><tr><td>资源持续性与表现风险</td><td>20%</td><td>运动员伤病、赛事热度、项目生命周期、资源稳定性</td></tr><tr><td>声誉、合规与安全风险</td><td>25%</td><td>舆情、合规、安全事故、政治或道德风险</td></tr><tr><td>激活执行风险</td><td>20%</td><td>组织是否有内容、产品、会员、渠道承接能力</td></tr><tr><td>财务与机会成本风险</td><td>15%</td><td>价格是否过高，是否挤占更高价值投入</td></tr></tbody></table></div>
+<p>风险折扣系数：</p>
+<div class="table-wrap"><table><thead><tr><th>加权风险分</th><th>折扣系数</th><th>决策含义</th></tr></thead><tbody><tr><td>1.0-1.5</td><td>0.95-1.00</td><td>风险很低</td></tr><tr><td>1.6-2.5</td><td>0.85-0.95</td><td>可正常推进</td></tr><tr><td>2.6-3.5</td><td>0.70-0.85</td><td>需要谨慎，降低预算或设置保护条款</td></tr><tr><td>3.6-4.2</td><td>0.55-0.70</td><td>高风险，除非战略价值极高</td></tr><tr><td>4.3-5.0</td><td>0-0.55</td><td>原则上不建议投入</td></tr></tbody></table></div>
+<p>最终公式：</p>
+<blockquote><p>有效价值分 = 六大价值维度加权分 × 风险折扣系数</p></blockquote>
+<p>需要单独设立否决项：</p>
+<ul>
+<li>重大声誉风险</li>
+<li>严重合规风险</li>
+<li>权益不可执行</li>
+<li>与品牌战略明显冲突</li>
+<li>内部完全没有激活能力</li>
+</ul>
+<hr>
+<h2 id="E58D81E38081E8B584E4BAA7E7BB84E59088E9858DE7BDAE">十、资产组合配置</h2>
+<p>综合运动品牌不应单点押注，而应形成组合。</p>
+<div class="table-wrap"><table><thead><tr><th>组合角色</th><th>解决问题</th><th>代表资产</th><th>建议占比</th></tr></thead><tbody><tr><td>势能资产</td><td>品牌高度</td><td>奥运、亚运、全运、国家队、顶级巨星</td><td>20%-35%</td></tr><tr><td>专业资产</td><td>品类可信度</td><td>专项国家队、专业运动员、专业赛事、协会、教练专家</td><td>25%-35%</td></tr><tr><td>增长资产</td><td>用户与销售</td><td>马拉松、HYROX、骑行、校园赛事、App 挑战、训练营</td><td>25%-35%</td></tr><tr><td>高端/圈层倾斜</td><td>高端化与会员经营</td><td>网球、高尔夫、滑雪、F1、精英骑行、高端俱乐部</td><td>10%-20%</td></tr></tbody></table></div>
+<p>说明：</p>
+<p>这里的“高端/圈层倾斜”不是独立于前三类之外的主框架，而是当品牌目标偏高端化、会员经营或商务关系时，对势能资产、专业资产和增长资产的一种组合倾斜。</p>
+<hr>
+<h2 id="E58D81E4B880E38081E585A8E79083E59381E7898CE4BDBFE794A8E4BD93E882B2E8B584E4BAA7E79A84E8B68BE58ABF">十一、全球品牌使用体育资产的趋势</h2>
+<p>1. 从单一巨星转向资源组合 头部品牌不会只押一个运动员，而是用明星、潜力新星、队伍、赛事、社群、KOC 共同构成矩阵。</p>
+<p>2. 从全球大资源转向全球资产 + 本地相关 国际品牌越来越重视本地消费者真正参与和相信的运动。全球核心运动之外，本地 credibility sports 会越来越重要。</p>
+<p>3. 从体育表现转向体育文化 体育资源不只证明产品能跑多快、跳多高，也帮助品牌进入音乐、街头、校园、女性、户外、城市生活方式等文化场景。</p>
+<p>4. 从赞助权益转向数据和会员资产 大众赛事、App 挑战、训练营、俱乐部资源越来越重要，因为它们能带来可沉淀用户，而不是一次性曝光。</p>
+<p>5. 从买成熟资源转向共建新运动 新兴运动早期入口越来越重要。PUMA x HYROX 的启发是：品牌不只是买资源，而是参与项目成长、产品定义、社群运营和赛事生态建设。</p>
+<hr>
+<h2 id="E58D81E4BA8CE38081E5B8B8E8A781E8AFAFE58CBA">十二、常见误区</h2>
+<p>1. 用曝光量评估所有资源 高曝光不等于高价值。一个高尔夫赛事曝光不大，但对高净值客户价值很高；一个话题很爆，也可能不转化、不沉淀。</p>
+<p>2. 把官方赞助等同于消费者心智 官方身份只是权益，不是心智。消费者记住的是运动员、产品、故事、体验，而不是赞助商等级。</p>
+<p>3. 只看短期销量，低估长期品牌资产 奥运、国家队、顶级运动员，短期 ROI 可能不好算，但能塑造长期信任和品牌高度。</p>
+<p>4. 只买资源，不建设运营能力 很多资产本身很好，但品牌没有内容、会员、社群、门店、电商承接，最后只能变成一波物料投放。</p>
+<p>5. 忽视风险和替代成本 运动员可能伤病，赛事可能降温，权益可能被竞品伏击。评估时必须加入风险折扣和退出机制。</p>
+<hr>
+<h2 id="E58685E983A8E6938DE4BD9CE6A8A1E69DBF">内部操作模板</h2>
+<p>每个体育资产评估前，先填一张资产角色卡。</p>
+<div class="table-wrap"><table><thead><tr><th>问题</th><th>填写</th></tr></thead><tbody><tr><td>这个资产主要服务哪个战略任务？</td><td>势能 / 专业 / 增长</td></tr><tr><td>是否承担第二战略任务？</td><td>是 / 否</td></tr><tr><td>三类任务比例是多少？</td><td>势能 x%，专业 x%，增长 x%</td></tr><tr><td>核心成功标准是什么？</td><td>品牌提升 / 品类心智 / 会员增长 / 销售转化</td></tr><tr><td>最关键 KPI 是哪 3 个？</td><td>例如品类首选率、会员新增、销售提升</td></tr><tr><td>是否有战略防守价值？</td><td>高 / 中 / 低</td></tr><tr><td>风险折扣是多少？</td><td>0.7-1.0</td></tr></tbody></table></div>
+<p>然后再进入六维评分、风险折扣和组合配置。</p>
+<hr>
+<h2 id="E69C80E7BB88E58E9FE58899">最终原则</h2>
+<p>1. 先定义战略任务，再选择体育资产。 2. 统一的是评估逻辑，不是统一 KPI 权重。 3. 每个资产必须有主任务，可以有副任务。 4. 风险决定这个资产价值要打几折。 5. 战略任务占比决定六大价值维度各自该看多重。 6. 只防守那些与核心战略相关、会改变竞争格局、且我方有能力运营的稀缺资产。</p>
+      <footer>来源：本地 Obsidian 笔记《体育资产精简框架》。</footer>
+    </article>
+  </main>
+</body>
+</html>
