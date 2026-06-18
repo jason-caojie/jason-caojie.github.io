@@ -194,6 +194,66 @@
       font-style: italic;
     }
 
+
+    .lodging-panel {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: 0 14px 34px rgba(31, 41, 51, 0.06);
+    }
+
+    .lodging-panel h2 {
+      margin: 0 0 6px;
+      color: var(--head);
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .lodging-intro {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .lodging-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .lodging-card {
+      min-height: 248px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+    }
+
+    .lodging-card h3 {
+      margin: 0 0 6px;
+      color: #24362f;
+      font-size: 17px;
+      line-height: 1.3;
+    }
+
+    .lodging-meta {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .lodging-card p {
+      margin: 5px 0;
+      font-size: 13px;
+    }
+
+    .score {
+      color: var(--head);
+      font-weight: 750;
+    }
+
     .notes {
       margin-top: 16px;
       display: grid;
@@ -231,7 +291,8 @@
       }
 
       .summary,
-      .notes {
+      .notes,
+      .lodging-grid {
         grid-template-columns: 1fr;
       }
 
@@ -309,7 +370,7 @@
               <td class="date-cell">9-30</td>
               <td><div class="route-title">抵达 Tbilisi</div><span class="tag">租车 / 宿城内</span></td>
               <td>19:00 香香家航班到达</td>
-              <td><div class="hotel-name">MariaLuis Hotel</div><div class="price">819 CNY w/ breakfast</div><div class="cancel">Free cancel by 9/28</div><div class="muted">booking.com</div></td>
+              <td><div class="hotel-name">MariaLuis Hotel</div><div class="price">820 CNY / GEL 321.86</div><div class="muted">2 x Standard Triple Room</div><div class="muted">Breakfast included · Booking 9.1</div><div class="cancel">Free cancel by 9/28</div><div class="muted">booking.com</div></td>
               <td><strong>D</strong>: Flight dinner or airport fast food</td>
               <td><strong>Car rental</strong>: xxx<br><strong>Hotel address</strong>: 32 Elene Akhvlediani Street, 0109 Tbilisi, Georgia</td>
             </tr>
@@ -317,7 +378,7 @@
               <td class="date-cell">10-1</td>
               <td><div class="route-title">Tbilisi -> Mestia</div><span class="tag">drive ~500km, 8 hours</span></td>
               <td>8:00 出发<br>12:00-13:00 中途找个城市吃午饭（Kutaisi）<br>17:00 左右到 Mestia</td>
-              <td><div class="hotel-name">Galash-R</div><div class="price">1043 CNY w/ breakfast</div><div class="cancel">Free cancel by 9/29</div><div class="muted">booking.com</div></td>
+              <td><div class="hotel-name">Galash-R</div><div class="price">1,044 CNY / GEL 410</div><div class="muted">Suite with Mountain View + Twin Room with Mountain View</div><div class="muted">Breakfast included · Booking 9.6</div><div class="cancel">Free cancel by 9/29</div><div class="muted">booking.com</div></td>
               <td><strong>B</strong>: Hotel included<br><strong>L</strong>: Kutaisi or somewhere<br><strong>D</strong>: in Mestia</td>
               <td><strong>Hotel address</strong>: 50 ushba street, Mestia, Georgia</td>
             </tr>
@@ -325,7 +386,7 @@
               <td class="date-cell">10-2</td>
               <td><div class="route-title">Trekking Day 1</div><span class="tag">Mestia -> Zhabeshi</span></td>
               <td><strong>Distance</strong>: ~18km<br><strong>Elevation</strong>: +700m / -400m<br><strong>Walking time</strong>: 6-7 hours</td>
-              <td><div class="hotel-name">Guest House Victor</div><div class="price">492 CNY w/o meal</div><div class="cancel">Free cancel by 9/29</div><div class="muted">booking.com</div></td>
+              <td><div class="hotel-name">Guest House Victor</div><div class="price">493 CNY / GEL 193.50</div><div class="muted">Standard Quadruple Room + Triple Room with Balcony</div><div class="muted">No meal included · Booking 9.7</div><div class="cancel">Free cancel by 9/29</div><div class="muted">booking.com</div></td>
               <td><strong>B</strong>: Hotel included<br><strong>L</strong>: self prepared or lunchbox 15 GEL<br><strong>D</strong>: guesthouse 40 GEL</td>
               <td><strong>Hotel address</strong>: Jabeshi, 3216 Zhabeshi, Georgia<br><strong>Luggage transport to Zhabeshi</strong>: 60 GEL</td>
             </tr>
@@ -333,7 +394,7 @@
               <td class="date-cell">10-3</td>
               <td><div class="route-title">Trekking Day 2</div><span class="tag">Zhabeshi -> Adishi</span></td>
               <td><strong>Distance</strong>: ~12km<br><strong>Elevation</strong>: +800m / -500m<br><strong>Walking time</strong>: 5-6 hours</td>
-              <td><div class="hotel-name">Lento Kaldani Guesthouse</div><div class="price">610 CNY w/o meal</div><div class="cancel">Free cancel by 9/25</div><div class="muted">booking.com</div></td>
+              <td><div class="hotel-name">Lento Kaldani Guesthouse</div><div class="price">611 CNY / GEL 240</div><div class="muted">2 x Triple Room with Private Bathroom</div><div class="muted">No meal included · Booking 8.9</div><div class="cancel">Free cancel by 9/25</div><div class="muted">booking.com</div></td>
               <td><strong>B</strong>: guesthouse 30 GEL<br><strong>L</strong>: lunchbox 10 GEL<br><strong>D</strong>: guesthouse (80 GEL total for b/l/d)</td>
               <td><strong>Hotel address</strong>: Adishi, 3205 Adishi, Georgia<br><strong>Luggage transport</strong>: can be done by guesthouse (included in meal plan)</td>
             </tr>
@@ -341,7 +402,7 @@
               <td class="date-cell">10-4</td>
               <td><div class="route-title">Trekking Day 3</div><span class="tag">Adishi -> Iprari</span></td>
               <td><strong>Distance</strong>: ~19km<br><strong>Elevation</strong>: +850m / -950m<br><strong>Walking time</strong>: 7-8 hours</td>
-              <td><div class="hotel-name">Elos Guesthouse</div><div class="price">415 CNY w/o meal</div><div class="cancel">Free cancel by 10/2</div><div class="muted">booking.com</div></td>
+              <td><div class="hotel-name">Elos Guesthouse</div><div class="price">415 CNY / GEL 163.15</div><div class="muted">2 x Basic Triple Room with Shared Bathroom</div><div class="muted">No meal included · Booking 9.3</div><div class="cancel">Free cancel by 10/2</div><div class="muted">booking.com</div></td>
               <td><strong>B</strong>: guesthouse<br><strong>L</strong>: guesthouse<br><strong>D</strong>: Elos guesthouse</td>
               <td><strong>Hotel address</strong>: Vichnashi, Iprari, Georgia<br><strong>Luggage transport</strong>: guesthouse can do it</td>
             </tr>
@@ -349,7 +410,7 @@
               <td class="date-cell">10-5</td>
               <td><div class="route-title">Trekking Day 4</div><span class="tag">Iprari -> Ushguli</span></td>
               <td><strong>Distance</strong>: ~11km<br><strong>Elevation</strong>: +400m / -350m<br><strong>Walking time</strong>: 4-5 hours</td>
-              <td><div class="hotel-name">Agra Ushguli</div><div class="price">670 CNY w/o meal</div><div class="cancel">Free cancel by 10/2</div><div class="muted">booking.com</div></td>
+              <td><div class="hotel-name">Agra Ushguli</div><div class="price">671 CNY / GEL 263.34</div><div class="muted">Standard Quadruple Room + Double Room with Mountain View</div><div class="muted">No meal included · Booking 9.4</div><div class="cancel">Free cancel by 10/2</div><div class="muted">booking.com</div></td>
               <td><strong>B</strong>: guesthouse 35 GEL<br><strong>L</strong>: lunchbox 10 GEL<br><strong>D</strong>: Agra (order by menu)</td>
               <td><strong>Hotel address</strong>: Murkmeli Right way, 3214 Ushguli, Georgia<br><strong>Luggage transport</strong>: guesthouse can do it</td>
             </tr>
@@ -382,6 +443,67 @@
       </div>
     </section>
 
+    <section class="lodging-panel" aria-label="Booking住宿确认与评价参考">
+      <h2>Booking住宿确认与评价参考</h2>
+      <p class="lodging-intro">信息来源：Booking.com已确认订单页与对应酒店公开页面。此处只保留住宿决策信息，不展示确认号、PIN、邮箱、电话、银行卡等敏感信息。</p>
+      <div class="lodging-grid">
+        <article class="lodging-card">
+          <h3>9-30 · Tbilisi · MariaLuis Hotel</h3>
+          <p class="score">9.1 · Wonderful · 661 reviews</p>
+          <p><strong>房型</strong>：2 x Standard Triple Room</p>
+          <p><strong>总价</strong>：约 CNY 820 / GEL 321.86</p>
+          <p><strong>早餐</strong>：含早餐</p>
+          <p><strong>地址</strong>：32 Elene Akhvlediani Street, 0109 Tbilisi, Georgia</p>
+          <p><strong>评价特点</strong>：干净、位置好，靠近市中心和 Trinity Cathedral；员工友好，早餐评价好；房间/阳台景观不错，性价比高。</p>
+        </article>
+        <article class="lodging-card">
+          <h3>10-1 · Mestia · Galash-R</h3>
+          <p class="score">9.6 · Exceptional · 431 reviews</p>
+          <p><strong>房型</strong>：1 x Suite with Mountain View；1 x Twin Room with Mountain View</p>
+          <p><strong>总价</strong>：约 CNY 1,044 / GEL 410</p>
+          <p><strong>早餐</strong>：含早餐</p>
+          <p><strong>地址</strong>：50 ushba street, Mestia, Georgia</p>
+          <p><strong>评价特点</strong>：主人/家庭式服务非常强，位置 9.8；早餐分量大且好吃；房间宽敞、干净，有山景，适合徒步前后休整。</p>
+        </article>
+        <article class="lodging-card">
+          <h3>10-2 · Zhabeshi · Guest House Victor</h3>
+          <p class="score">9.7 · Exceptional · 505 reviews</p>
+          <p><strong>房型</strong>：1 x Standard Quadruple Room；1 x Triple Room with Balcony</p>
+          <p><strong>总价</strong>：约 CNY 493 / GEL 193.50</p>
+          <p><strong>早餐</strong>：房价不含餐</p>
+          <p><strong>地址</strong>：Jabeshi, 3216 Zhabeshi, Georgia</p>
+          <p><strong>评价特点</strong>：Mestia-Ushguli 徒步线上评价很高；房间干净、热水和暖气好；主人热情，晚餐/早餐被多次夸，景观也好。</p>
+        </article>
+        <article class="lodging-card">
+          <h3>10-3 · Adishi · Lento Kaldani Guesthouse</h3>
+          <p class="score">8.9 · Excellent · 290 reviews</p>
+          <p><strong>房型</strong>：2 x Triple Room with Private Bathroom</p>
+          <p><strong>总价</strong>：约 CNY 611 / GEL 240</p>
+          <p><strong>早餐</strong>：房价不含餐</p>
+          <p><strong>地址</strong>：Adishi, 3205 Adishi, Georgia</p>
+          <p><strong>评价特点</strong>：Adishi 位置和景观好；食物分量大、味道好；主人热情，还会帮忙过河/安排徒步相关事项；设施相对朴素但房间干净。</p>
+        </article>
+        <article class="lodging-card">
+          <h3>10-4 · Iprari · Elos Guesthouse</h3>
+          <p class="score">9.3 · Wonderful · 139 reviews</p>
+          <p><strong>房型</strong>：2 x Basic Triple Room with Shared Bathroom</p>
+          <p><strong>总价</strong>：约 CNY 415 / GEL 163.15</p>
+          <p><strong>早餐</strong>：房价不含餐</p>
+          <p><strong>地址</strong>：Vichnashi, Iprari, Georgia</p>
+          <p><strong>评价特点</strong>：家庭经营、主人特别友好；徒步途中住宿体验好，晚餐好吃；房间温暖干净、热水好；评价里多次提到接送帮助。</p>
+        </article>
+        <article class="lodging-card">
+          <h3>10-5 · Ushguli · Agra Ushguli</h3>
+          <p class="score">9.4 · Wonderful · 166 reviews</p>
+          <p><strong>房型</strong>：1 x Standard Quadruple Room；1 x Double Room with Mountain View</p>
+          <p><strong>总价</strong>：约 CNY 671 / GEL 263.34</p>
+          <p><strong>早餐</strong>：房价不含餐</p>
+          <p><strong>地址</strong>：Murkmeli Right way, 3214 Ushguli, Georgia</p>
+          <p><strong>评价特点</strong>：氛围好、干净、位置好；餐食尤其早餐/晚餐评价很强；员工友善，房间舒适，有山景和传统村落氛围。</p>
+        </article>
+      </div>
+    </section>
+
     <section class="notes" aria-label="待确认事项">
       <div class="note-card">
         <h2>当前最需要补齐</h2>
@@ -389,7 +511,7 @@
       </div>
       <div class="note-card">
         <h2>版本说明</h2>
-        <p>生成时间：2026-06-07。</p>
+        <p>生成时间：2026-06-17，已同步Booking住宿确认与评价信息。</p>
       </div>
     </section>
   </main>
