@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Running Use-Case Segmentation — 12 Occasions, 6 Brands</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12161A;
+    --paper:#E9EAE4;
+    --card:#FFFFFF;
+    --rule:#CBCDC4;
+    --rule-soft:#E0E1DA;
+    --muted:#63696B;
+    --road:#1D4E5C;
+    --speed:#A8331C;
+    --trail:#4F6330;
+    --frontier:#5B4A87;
+    --open:#B07D12;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-size:15px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  .mono{font-family:"IBM Plex Mono",monospace}
+
+  /* ---------- masthead ---------- */
+  header.masthead{
+    border-bottom:2px solid var(--ink);
+    padding:56px 0 28px;
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);
+  }
+  h1{
+    font-family:"Archivo",sans-serif;
+    font-weight:800;
+    font-size:clamp(34px,5.6vw,62px);
+    line-height:.98;
+    letter-spacing:-.028em;
+    margin:14px 0 0;
+    max-width:20ch;
+  }
+  h1 em{font-style:normal;color:var(--speed)}
+  .standfirst{
+    margin:20px 0 0;max-width:62ch;font-size:17px;color:#2B3134;
+  }
+
+  /* ---------- logic block ---------- */
+  .logic{
+    background:var(--card);
+    border:1px solid var(--rule);
+    padding:26px 28px;
+    margin:36px 0 0;
+  }
+  .logic h2{
+    font-family:"Archivo",sans-serif;font-weight:700;font-size:15px;
+    letter-spacing:.02em;margin:0 0 14px;text-transform:uppercase;
+  }
+  .logic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
+  .logic-grid h3{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 7px;font-weight:600;
+  }
+  .logic-grid p{margin:0;font-size:14px;line-height:1.5}
+  .logic-note{
+    margin:22px 0 0;padding-top:18px;border-top:1px solid var(--rule-soft);
+    font-size:13.5px;color:#3A4043;
+  }
+  .logic-note b{font-weight:600}
+
+  section{padding:64px 0 0}
+  .sec-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+  h2.sec{
+    font-family:"Archivo",sans-serif;font-weight:800;
+    font-size:clamp(22px,3vw,32px);letter-spacing:-.018em;margin:0;
+  }
+  .sec-num{
+    font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--speed);
+    letter-spacing:.1em;font-weight:600;
+  }
+  .sec-sub{margin:8px 0 26px;max-width:72ch;color:#3A4043;font-size:15px}
+
+  /* ---------- coverage map (signature) ---------- */
+  .cov{
+    background:var(--card);border:1px solid var(--rule);
+    padding:24px 26px 20px;overflow-x:auto;
+  }
+  table.covmap{border-collapse:collapse;font-size:13px;min-width:640px;width:100%}
+  table.covmap th{text-align:left;font-weight:600;padding:0 0 12px;vertical-align:bottom}
+  table.covmap th.brand{
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--muted);text-align:center;width:74px;
+  }
+  table.covmap td{padding:5px 0;border-top:1px solid var(--rule-soft)}
+  table.covmap td.seg{
+    padding-right:16px;font-size:13px;white-space:nowrap;
+  }
+  table.covmap td.seg .code{
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;
+    color:#fff;background:var(--ink);padding:1px 5px;margin-right:9px;letter-spacing:.04em;
+  }
+  td.dot{text-align:center}
+  .mk{display:inline-block;width:15px;height:15px;border:1.5px solid var(--ink);vertical-align:middle}
+  .mk.full{background:var(--ink)}
+  .mk.part{background:
+      repeating-linear-gradient(45deg,var(--ink) 0 1.6px,transparent 1.6px 4.6px)}
+  .mk.none{border-color:var(--open);border-style:dashed;background:transparent}
+  .cov-legend{
+    display:flex;gap:22px;flex-wrap:wrap;margin-top:18px;padding-top:16px;
+    border-top:1px solid var(--rule);font-size:12.5px;color:#3A4043;
+  }
+  .cov-legend span{display:flex;align-items:center;gap:8px}
+
+  /* ---------- main matrix ---------- */
+  .scroll{
+    overflow-x:auto;border:1px solid var(--rule);background:var(--card);
+    -webkit-overflow-scrolling:touch;
+  }
+  table.matrix{border-collapse:separate;border-spacing:0;font-size:13px;min-width:2260px}
+  table.matrix th{
+    position:sticky;top:0;z-index:3;
+    background:var(--ink);color:#F2F3EE;
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:500;
+    letter-spacing:.11em;text-transform:uppercase;text-align:left;
+    padding:13px 14px;vertical-align:bottom;white-space:nowrap;
+  }
+  table.matrix th.brand{color:#FFF;border-left:1px solid #3A4045}
+  table.matrix td{
+    padding:16px 14px;vertical-align:top;border-top:1px solid var(--rule-soft);
+    line-height:1.45;
+  }
+  table.matrix td.brandcell{border-left:1px solid var(--rule-soft);width:172px;min-width:172px}
+  tr.famrow td{
+    background:var(--ink);color:#F2F3EE;padding:9px 14px;
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;position:sticky;left:0;
+  }
+  td.seghead{
+    width:220px;min-width:220px;position:sticky;left:0;z-index:2;
+    background:var(--card);border-right:1px solid var(--rule);
+  }
+  tr:hover td{background:#FAFAF7}
+  tr:hover td.seghead{background:#FAFAF7}
+  .segcode{
+    display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+    font-weight:600;color:#fff;padding:1px 6px;letter-spacing:.05em;margin-bottom:7px;
+  }
+  .segcode.road{background:var(--road)}
+  .segcode.speed{background:var(--speed)}
+  .segcode.trail{background:var(--trail)}
+  .segcode.frontier{background:var(--frontier)}
+  .segname{font-family:"Archivo",sans-serif;font-weight:700;font-size:16px;letter-spacing:-.01em;line-height:1.2}
+  td .lead{font-weight:600}
+  td.small{font-size:12.5px}
+  .pace{font-family:"IBM Plex Mono",monospace;font-size:12px;display:block;color:#2B3134}
+  .pace b{font-weight:600;color:var(--ink)}
+  .brandcell .m{display:block;margin-bottom:5px}
+  .brandcell .m b{font-weight:600}
+  .brandcell .tier{
+    font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);
+    letter-spacing:.06em;text-transform:uppercase;
+  }
+  .gap{
+    display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--open);
+    border:1px dashed var(--open);padding:1px 5px;margin-bottom:5px;
+  }
+  ul.tight{margin:0;padding-left:15px}
+  ul.tight li{margin-bottom:4px}
+  .hint{font-size:12.5px;color:var(--muted);margin-top:10px;font-family:"IBM Plex Mono",monospace;letter-spacing:.04em}
+
+  /* ---------- modifiers ---------- */
+  table.mods{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--rule);font-size:13.5px}
+  table.mods th{
+    background:var(--ink);color:#F2F3EE;text-align:left;padding:12px 16px;
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.11em;
+    text-transform:uppercase;font-weight:500;
+  }
+  table.mods td{padding:15px 16px;border-top:1px solid var(--rule-soft);vertical-align:top;line-height:1.5}
+  table.mods td:first-child{font-weight:600;width:190px}
+
+  /* ---------- edge cards ---------- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+  .card{background:var(--card);padding:24px 22px}
+  .card .rank{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;
+    color:var(--open);font-weight:600;
+  }
+  .card h3{font-family:"Archivo",sans-serif;font-weight:700;font-size:19px;letter-spacing:-.012em;margin:9px 0 10px;line-height:1.15}
+  .card p{margin:0 0 11px;font-size:13.5px;line-height:1.5}
+  .card p:last-child{margin-bottom:0}
+  .card .verdict{
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.03em;
+    padding-top:11px;border-top:1px solid var(--rule-soft);color:#2B3134;
+  }
+  .avoid .rank{color:var(--muted)}
+  .avoid h3{color:var(--muted)}
+
+  footer{
+    margin-top:72px;border-top:2px solid var(--ink);padding:24px 0 60px;
+    font-size:12.5px;color:var(--muted);
+  }
+  footer p{margin:0 0 6px;max-width:78ch}
+
+  @media (max-width:640px){
+    .wrap{padding:0 16px}
+    header.masthead{padding:36px 0 22px}
+    .logic{padding:20px}
+    .cov{padding:18px 16px}
+    section{padding:46px 0 0}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .fade{opacity:0;transform:translateY(8px);animation:rise .5s ease forwards}
+    @keyframes rise{to{opacity:1;transform:none}}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap fade">
+    <div class="eyebrow">Category architecture study · August 2026 · Nike / adidas / ASICS / Saucony / New Balance / HOKA</div>
+    <h1>Twelve running occasions. <em>Four of them nobody is building for.</em></h1>
+    <p class="standfirst">A MECE segmentation of running use cases, mapped against the current model matrices of the six major performance brands — built to show where the incumbent grid is dense, where it is duplicated, and where it is simply absent.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="logic fade">
+    <h2>How the segmentation is cut</h2>
+    <div class="logic-grid">
+      <div>
+        <h3>Unit of analysis</h3>
+        <p>One <b>run occasion</b> — a single outing — not a runner type. Runners are not segments; the same person occupies five of these in a week and buys a different shoe for each.</p>
+      </div>
+      <div>
+        <h3>Primary key</h3>
+        <p>Surface class (road/hard · off-road · embedded) × the job the outing does (start · accumulate · protect · sharpen · compete).</p>
+      </div>
+      <div>
+        <h3>Exhaustiveness</h3>
+        <p>Every run a human takes lands in exactly one of the twelve. Nothing outside; nothing counted twice.</p>
+      </div>
+      <div>
+        <h3>Tie-break rules</h3>
+        <p>Assign to the occasion whose constraint <i>dominates the shoe decision</i>. An easy treadmill run is X1, not R2, because the belt changes the requirement.</p>
+      </div>
+    </div>
+    <p class="logic-note"><b>What is deliberately not a segment:</b> pronation/support need, foot width, body mass, climate, and price tier. These are <b>orthogonal modifiers</b> — they cut across all twelve occasions rather than partitioning them. Treating "stability" as a segment is the most common error in this category, and it is why brands end up with a stability shoe that has no occasion. They are handled separately in section 03.</p>
+  </div>
+
+  <!-- ============ COVERAGE MAP ============ -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2 class="sec">Where the six brands actually play</h2>
+    </div>
+    <p class="sec-sub">Read this before the matrix. It is the same twelve occasions, scored on whether each brand fields a <i>purpose-built franchise</i>, merely <i>adapts a shoe from a neighbouring category</i>, or offers <i>nothing</i>. The dashed cells are the commercial argument for a new brand.</p>
+
+    <div class="cov">
+      <table class="covmap">
+        <thead>
+          <tr>
+            <th style="width:auto">&nbsp;</th>
+            <th class="brand">Nike</th><th class="brand">adidas</th><th class="brand">ASICS</th>
+            <th class="brand">Saucony</th><th class="brand">New Bal.</th><th class="brand">HOKA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="seg"><span class="code">R1</span>Starting out / walk-run</td>
+            <td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td></tr>
+          <tr><td class="seg"><span class="code">R2</span>Everyday base miles</td>
+            <td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td></tr>
+          <tr><td class="seg"><span class="code">R3</span>Long run</td>
+            <td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk part"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td></tr>
+          <tr><td class="seg"><span class="code">R4</span>Recovery &amp; time-on-feet</td>
+            <td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk part"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td></tr>
+          <tr><td class="seg"><span class="code">R5</span>Quality session</td>
+            <td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td></tr>
+          <tr><td class="seg"><span class="code">R6</span>Long-course race day</td>
+            <td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td></tr>
+          <tr><td class="seg"><span class="code">R7</span>Short-course race &amp; speed</td>
+            <td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk part"></i></td></tr>
+          <tr><td class="seg"><span class="code">T1</span>Door-to-trail / mixed surface</td>
+            <td class="dot"><i class="mk part"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk part"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk part"></i></td><td class="dot"><i class="mk full"></i></td></tr>
+          <tr><td class="seg"><span class="code">T2</span>Technical trail &amp; mountain</td>
+            <td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk part"></i></td><td class="dot"><i class="mk full"></i></td></tr>
+          <tr><td class="seg"><span class="code">T3</span>Ultra &amp; trail race day</td>
+            <td class="dot"><i class="mk part"></i></td><td class="dot"><i class="mk full"></i></td><td class="dot"><i class="mk part"></i></td><td class="dot"><i class="mk part"></i></td><td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk full"></i></td></tr>
+          <tr><td class="seg"><span class="code">X1</span>Treadmill &amp; indoor</td>
+            <td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk none"></i></td></tr>
+          <tr><td class="seg"><span class="code">X2</span>Hybrid fitness racing</td>
+            <td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk part"></i></td><td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk none"></i></td></tr>
+          <tr><td class="seg"><span class="code">X3</span>Run-commute &amp; utility</td>
+            <td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk none"></i></td><td class="dot"><i class="mk part"></i></td><td class="dot"><i class="mk part"></i></td></tr>
+        </tbody>
+      </table>
+      <div class="cov-legend">
+        <span><i class="mk full"></i> Purpose-built franchise, marketed by occasion</span>
+        <span><i class="mk part"></i> Adapted from an adjacent category</span>
+        <span><i class="mk none"></i> No offer — runners improvise</span>
+      </div>
+    </div>
+    <p class="hint">Seven of twelve occasions are saturated six ways. Three have no offer from any of the six.</p>
+  </section>
+
+  <!-- ============ MAIN MATRIX ============ -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2 class="sec">The segmentation matrix</h2>
+    </div>
+    <p class="sec-sub">Scroll horizontally. Paces are given in min/km for a mid-pack recreational runner; shift roughly 45–75 s/km faster for competitive club runners. Model names reflect lineups current as of August 2026.</p>
+  </section>
+</div>
+
+<div class="wrap">
+<div class="scroll">
+<table class="matrix">
+  <thead>
+    <tr>
+      <th style="position:sticky;left:0;z-index:4">Occasion</th>
+      <th>Sub-scenarios</th>
+      <th>Duration &amp; pace</th>
+      <th>What the runner wants</th>
+      <th>Functional requirement</th>
+      <th>Industry category name</th>
+      <th class="brand">Nike</th>
+      <th class="brand">adidas</th>
+      <th class="brand">ASICS</th>
+      <th class="brand">Saucony</th>
+      <th class="brand">New Balance</th>
+      <th class="brand">HOKA</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  <tr class="famrow"><td colspan="12">Family R — Road, track &amp; hard surface</td></tr>
+
+  <!-- R1 -->
+  <tr>
+    <td class="seghead">
+      <span class="segcode road">R1</span>
+      <div class="segname">Starting Out &amp; Walk-Run</div>
+    </td>
+    <td class="small">Couch-to-5K; return after years off; weight-management running; running on medical advice; parkrun first-timer; social run club taster</td>
+    <td class="small"><span class="pace"><b>20–40 min</b><br>3–5 km<br>7:00–9:30 /km<br>run-walk intervals</span></td>
+    <td class="small">Finish without pain, and come back on Thursday. The goal is <span class="lead">adherence, not performance.</span> Fear of injury and of looking like a beginner both suppress purchase.</td>
+    <td class="small"><ul class="tight"><li>Forgiving, soft, wide-base landing — tolerates heel-heavy, low-cadence gait</li><li>High durability at higher body mass</li><li>Immediate out-of-box comfort, no break-in</li><li>Wide fit options, easy on/off</li><li>Approachable price</li></ul></td>
+    <td class="small"><span class="lead">Entry cushioned neutral trainer</span> — the "first real running shoe" tier, $110–150</td>
+    <td class="brandcell small"><span class="m"><b>Pegasus 42</b><br><span class="tier">Responsive · icon tier</span></span><span class="m"><b>Winflo 11</b><br><span class="tier">Value entry</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Supernova Rise 3</b><br><span class="tier">Everyday</span></span><span class="m"><b>Supernova Stride</b><br><span class="tier">Value entry</span></span></td>
+    <td class="brandcell small"><span class="m"><b>GEL-Cumulus 28</b><br><span class="tier">Everyday neutral</span></span><span class="m"><b>GT-1000 15</b><br><span class="tier">Value / light support</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Ride 19</b><br><span class="tier">Core daily</span></span><span class="m"><b>Cohesion 18</b><br><span class="tier">Value entry</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Fresh Foam X 880v15</b><br><span class="tier">Core daily</span></span><span class="m"><b>Ellipse v1</b><br><span class="tier">Value / lifestyle-lean</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Clifton 11</b><br><span class="tier">Everyday cushion</span></span><span class="m"><b>Bondi 9</b><br><span class="tier">Max comfort</span></span></td>
+  </tr>
+
+  <!-- R2 -->
+  <tr>
+    <td class="seghead">
+      <span class="segcode road">R2</span>
+      <div class="segname">Everyday Base Miles</div>
+    </td>
+    <td class="small">The 4–6×/week aerobic run; lunchtime loop; club easy run; commute-free neighbourhood miles; the 80% of a polarised training week</td>
+    <td class="small"><span class="pace"><b>35–70 min</b><br>6–12 km<br>5:30–7:00 /km<br>conversational</span></td>
+    <td class="small">One shoe that does everything competently and lasts 600–800 km. <span class="lead">Reliability and cost-per-kilometre</span> beat excitement. Highest repeat-purchase loyalty of any segment.</td>
+    <td class="small"><ul class="tight"><li>28–38 mm stack, balanced not extreme</li><li>Outsole rubber coverage for 600 km+</li><li>Enough response to lift pace for the last km</li><li>Thermal comfort across seasons</li><li>Unremarkable enough to wear anywhere</li></ul></td>
+    <td class="small"><span class="lead">Neutral daily trainer / workhorse</span> — the volume and margin engine of every road line, $130–160</td>
+    <td class="brandcell small"><span class="m"><b>Pegasus 42</b><br><span class="tier">Icon</span></span><span class="m"><b>Pegasus Plus</b><br><span class="tier">Lighter, faster tier</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Adizero SL2</b><br><span class="tier">Value performance</span></span><span class="m"><b>Supernova Rise 3</b><br><span class="tier">Comfort daily</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Novablast 6</b><br><span class="tier">Bouncy all-rounder</span></span><span class="m"><b>GEL-Cumulus 28</b><br><span class="tier">Traditional daily</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Ride 19</b><br><span class="tier">Core daily</span></span><span class="m"><b>Kinvara 16</b><br><span class="tier">Lightweight daily</span></span></td>
+    <td class="brandcell small"><span class="m"><b>FuelCell Rebel v5</b><br><span class="tier">Light &amp; lively</span></span><span class="m"><b>880v15</b><br><span class="tier">Workhorse</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Clifton 11</b><br><span class="tier">Icon</span></span><span class="m"><b>Mach 7</b><br><span class="tier">Lighter daily</span></span></td>
+  </tr>
+
+  <!-- R3 -->
+  <tr>
+    <td class="seghead">
+      <span class="segcode road">R3</span>
+      <div class="segname">The Long Run</div>
+    </td>
+    <td class="small">Marathon-block Sunday long run; half-marathon build; progressive long run with a fast finish; long-run-as-social-event; first-timer distance milestones</td>
+    <td class="small"><span class="pace"><b>75 min – 3 hr</b><br>16–35 km<br>5:45–7:15 /km<br>steady, some at MP</span></td>
+    <td class="small">Arrive at the end of 30 km with legs that can train again on Tuesday. <span class="lead">Late-run fatigue protection</span> matters more than any single-stride metric.</td>
+    <td class="small"><ul class="tight"><li>High stack (38–45 mm) with resilience that survives hour three</li><li>Geometry that stays stable as form degrades</li><li>Light enough that mass doesn't compound over 30k steps</li><li>Upper accommodates foot swelling</li><li>Hot-spot-free at 2+ hours</li></ul></td>
+    <td class="small"><span class="lead">Max-cushion long-run trainer</span> and the fast-growing <span class="lead">unplated "super trainer"</span> at the top of it, $160–250</td>
+    <td class="brandcell small"><span class="m"><b>Vomero Plus</b><br><span class="tier">Max cushion · plus tier</span></span><span class="m"><b>Vomero 18</b><br><span class="tier">Max cushion · icon</span></span></td>
+    <td class="brandcell small"><span class="gap">Thin here</span><span class="m"><b>Supernova Prima</b><br><span class="tier">Cushion daily</span></span><span class="m"><b>Prime X 3 Strung</b><br><span class="tier">Over-limit max stack</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Superblast 3</b><br><span class="tier">Super trainer</span></span><span class="m"><b>MEGABLAST</b><br><span class="tier">Max super trainer</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Triumph 24</b><br><span class="tier">Max cushion</span></span><span class="m"><b>Endorphin Azura</b><br><span class="tier">Plateless super trainer</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Fresh Foam X 1080v15</b><br><span class="tier">Premium cushion</span></span><span class="m"><b>SC Trainer v3</b><br><span class="tier">Plated super trainer</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Skyward X 2</b><br><span class="tier">Plated max cushion</span></span><span class="m"><b>Skyflow</b><br><span class="tier">Premium cushion</span></span></td>
+  </tr>
+
+  <!-- R4 -->
+  <tr>
+    <td class="seghead">
+      <span class="segcode road">R4</span>
+      <div class="segname">Recovery &amp; Time-on-Feet</div>
+    </td>
+    <td class="small">Day-after-workout shakeout; double-day second run; injury-cautious jogging; the shoe worn all day between runs; runners at higher body mass wanting maximum protection</td>
+    <td class="small"><span class="pace"><b>25–50 min</b><br>4–9 km<br>6:30–8:30 /km<br>deliberately slow</span></td>
+    <td class="small">Blood flow without further loading. <span class="lead">Zero impact, zero demand.</span> Heavily cross-shops with walking and standing-all-day comfort — the widest non-running crossover of any segment.</td>
+    <td class="small"><ul class="tight"><li>Maximum softness and shock absorption</li><li>Wide, sidewalled base — softness must not cost stability</li><li>Plush collar/tongue, slip-on ease</li><li>No propulsion, no plate, no rush</li><li>Durability under all-day wear, not just running</li></ul></td>
+    <td class="small"><span class="lead">Max-cushion recovery / plush comfort</span> — the most commercially crowded tier in road running, $150–200</td>
+    <td class="brandcell small"><span class="m"><b>Vomero 18</b><br><span class="tier">Max cushion</span></span><span class="m"><b>Vomero Premium</b><br><span class="tier">Top tier</span></span></td>
+    <td class="brandcell small"><span class="gap">Weakest of six</span><span class="m"><b>Ultraboost 5</b><br><span class="tier">Comfort / lifestyle</span></span><span class="m"><b>Supernova Prima</b><br><span class="tier">Cushion daily</span></span></td>
+    <td class="brandcell small"><span class="m"><b>GEL-NIMBUS 28</b><br><span class="tier">Premium cushion</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Triumph 24</b><br><span class="tier">Premium cushion</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Fresh Foam X More v6</b><br><span class="tier">Max stack</span></span><span class="m"><b>1080v15</b><br><span class="tier">Premium cushion</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Bondi 9</b><br><span class="tier">Max cushion icon</span></span><span class="m"><b>Skyflow</b><br><span class="tier">Premium cushion</span></span></td>
+  </tr>
+
+  <!-- R5 -->
+  <tr>
+    <td class="seghead">
+      <span class="segcode speed">R5</span>
+      <div class="segname">The Quality Session</div>
+    </td>
+    <td class="small">Threshold / tempo blocks; track and road intervals; fartlek; marathon-pace segments; strides; the one or two hard days that define a training week</td>
+    <td class="small"><span class="pace"><b>45–90 min total</b><br>10–18 km incl. warm-up<br>work at <b>3:45–5:00 /km</b></span></td>
+    <td class="small">Hit the target split and still recover. Runners want <span class="lead">race-day sensation without race-day cost</span> — this is where "can I train in a super shoe?" gets resolved.</td>
+    <td class="small"><ul class="tight"><li>Propulsion at threshold pace, controllable at easy pace</li><li>Durable enough for 400–600 km, unlike a racer</li><li>Secure midfoot lockdown for cornering and repeats</li><li>Light (210–250 g) without losing protection</li><li>Plated or plateless — both now legitimate</li></ul></td>
+    <td class="small"><span class="lead">Super trainer / performance trainer</span> — the fastest-growing tier of 2025–26 and the current battleground, $160–220</td>
+    <td class="brandcell small"><span class="m"><b>Zoom Fly 6</b><br><span class="tier">Plated super trainer</span></span><span class="m"><b>Pegasus Plus</b><br><span class="tier">Fast daily</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Adizero Evo SL</b><br><span class="tier">Category benchmark</span></span><span class="m"><b>Adizero Boston 13</b><br><span class="tier">Rodded tempo</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Magic Speed 5</b><br><span class="tier">Plated tempo</span></span><span class="m"><b>SONICBLAST</b><br><span class="tier">Plated super trainer</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Endorphin Speed 5</b><br><span class="tier">Nylon-plated</span></span><span class="m"><b>Endorphin Azura</b><br><span class="tier">Plateless</span></span></td>
+    <td class="brandcell small"><span class="m"><b>SuperComp Rebel</b><br><span class="tier">New Aug 2026 · plated</span></span><span class="m"><b>SC Trainer v3</b><br><span class="tier">Plated super trainer</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Mach X 3</b><br><span class="tier">Plated super trainer</span></span><span class="m"><b>Mach 7</b><br><span class="tier">Unplated tempo</span></span></td>
+  </tr>
+
+  <!-- R6 -->
+  <tr>
+    <td class="seghead">
+      <span class="segcode speed">R6</span>
+      <div class="segname">Long-Course Race Day</div>
+    </td>
+    <td class="small">Marathon and half-marathon; the goal race of a 16-week block; Boston/Berlin qualifying attempts; 30 km time trials; the race that justified a year of training</td>
+    <td class="small"><span class="pace"><b>1:15 – 5:00 hr</b><br>21.1–42.2 km<br><b>3:00–7:00 /km</b><br>1–3 uses per year</span></td>
+    <td class="small">A personal best, and the story that goes with it. Purchase is <span class="lead">emotionally price-inelastic</span> and driven by elite proof — but almost entirely gated by credibility a new brand cannot buy quickly.</td>
+    <td class="small"><ul class="tight"><li>Measurable running-economy gain: 40 mm PEBA-class foam + carbon plate + rocker</li><li>Sub-220 g at men's US9</li><li>Wet-road traction at speed</li><li>Legal under the World Athletics 40 mm limit</li><li>Only needs to survive ~200 km</li></ul></td>
+    <td class="small"><span class="lead">Carbon-plated marathon super shoe</span> — halo tier, $250–500, roughly 28% of new pro racing launches</td>
+    <td class="brandcell small"><span class="m"><b>Alphafly 3</b><br><span class="tier">Marathon flagship</span></span><span class="m"><b>Vaporfly 4</b><br><span class="tier">All-distance racer</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Adizero Adios Pro 4</b><br><span class="tier">Marathon flagship</span></span><span class="m"><b>Adios Pro Evo 2</b><br><span class="tier">Ultralight halo</span></span></td>
+    <td class="brandcell small"><span class="m"><b>METASPEED Sky Tokyo</b><br><span class="tier">Stride-type racer</span></span><span class="m"><b>METASPEED Edge Tokyo</b><br><span class="tier">Cadence-type racer</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Endorphin Elite 3</b><br><span class="tier">Flagship racer</span></span><span class="m"><b>Endorphin Pro 5</b><br><span class="tier">Accessible racer</span></span></td>
+    <td class="brandcell small"><span class="m"><b>SC Elite v6</b><br><span class="tier">New Aug 2026</span></span><span class="m"><b>SC Elite v5</b><br><span class="tier">Outgoing flagship</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Cielo X1 3.0</b><br><span class="tier">Aggressive flagship</span></span><span class="m"><b>Rocket X 3</b><br><span class="tier">Stable racer</span></span></td>
+  </tr>
+
+  <!-- R7 -->
+  <tr>
+    <td class="seghead">
+      <span class="segcode speed">R7</span>
+      <div class="segname">Short-Course Race &amp; Speed</div>
+    </td>
+    <td class="small">Parkrun 5K; corporate and charity 10K; the mile; cross-country and track racing; school and collegiate competition; time-trial Tuesdays</td>
+    <td class="small"><span class="pace"><b>4–50 min</b><br>1.5–10 km<br><b>2:45–5:30 /km</b><br>frequent, low-stakes</span></td>
+    <td class="small">Beat a number they know by heart. Highest <span class="lead">frequency of competition</span> of any segment — parkrun alone runs weekly at global scale — and therefore far more repeat purchase than the marathon.</td>
+    <td class="small"><ul class="tight"><li>Minimum mass; 130–200 g is now achievable</li><li>Snappy forefoot, low drop, ground connection</li><li>Cornering stability on tight courses</li><li>Traction on grass, track, wet tarmac</li><li>Spike-plate variants for track and XC</li></ul></td>
+    <td class="small"><span class="lead">Racing flat / short-course super shoe</span>, plus <span class="lead">track &amp; XC spikes</span> as a separate sub-line, $150–280</td>
+    <td class="brandcell small"><span class="m"><b>Streakfly 2</b><br><span class="tier">Dedicated 5K/10K flat</span></span><span class="m"><b>Dragonfly / Maxfly</b><br><span class="tier">Track spikes</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Adizero Takumi Sen 11</b><br><span class="tier">Short-course racer</span></span><span class="m"><b>Adizero Adios 9</b><br><span class="tier">Traditional flat</span></span></td>
+    <td class="brandcell small"><span class="m"><b>METASPEED Ray</b><br><span class="tier">Lightest ASICS racer</span></span><span class="m"><b>Magic Speed 5</b><br><span class="tier">Accessible speed</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Sinister</b><br><span class="tier">Short-course flat</span></span><span class="m"><b>Endorphin Pro 5</b><br><span class="tier">Heel-striker racer</span></span></td>
+    <td class="brandcell small"><span class="m"><b>FuelCell SC Pacer v3</b><br><span class="tier">Dedicated short racer</span></span><span class="m"><b>MD-X / XC spikes</b><br><span class="tier">Track &amp; XC</span></span></td>
+    <td class="brandcell small"><span class="gap">No true flat</span><span class="m"><b>Cielo X1 3.0</b><br><span class="tier">Used across distances</span></span><span class="m"><b>Cielo X LD / spikes</b><br><span class="tier">Track</span></span></td>
+  </tr>
+
+  <tr class="famrow"><td colspan="12">Family T — Off-road</td></tr>
+
+  <!-- T1 -->
+  <tr>
+    <td class="seghead">
+      <span class="segcode trail">T1</span>
+      <div class="segname">Door-to-Trail &amp; Mixed Surface</div>
+    </td>
+    <td class="small">Canal paths, gravel, park loops, hard-pack; the run that starts on pavement and ends on dirt; light adventure travel; runners with no trail nearby but poor pavement</td>
+    <td class="small"><span class="pace"><b>40–90 min</b><br>7–15 km<br>5:45–7:30 /km<br>mixed footing</span></td>
+    <td class="small">One shoe instead of two. This is the <span class="lead">largest and least-served off-road population</span> — people who occasionally leave the road, not people who identify as trail runners.</td>
+    <td class="small"><ul class="tight"><li>Shallow 2–3 mm lugs — grip on dirt without buzzing on tarmac</li><li>Road-trainer stack and smoothness</li><li>Toe bumper and abrasion-resistant upper</li><li>Drains and dries; sheds light debris</li><li>Doesn't look like mountaineering gear</li></ul></td>
+    <td class="small"><span class="lead">Road-to-trail / all-terrain hybrid</span> — usually a trail-line offshoot rather than a road-line extension, $140–180</td>
+    <td class="brandcell small"><span class="m"><b>Pegasus Trail 5</b><br><span class="tier">Road-line extension</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Terrex Agravic Flow 3</b><br><span class="tier">All-round trail</span></span><span class="m"><b>Adizero Evo SL ATR</b><br><span class="tier">Road shoe, trail outsole</span></span></td>
+    <td class="brandcell small"><span class="m"><b>GEL-Trabuco Max 4</b><br><span class="tier">Cushioned door-to-trail</span></span><span class="m"><b>GEL-Venture 10</b><br><span class="tier">Value</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Ride TR 3</b><br><span class="tier">Road-to-trail</span></span><span class="m"><b>Xodus Ultra 3</b><br><span class="tier">Cushioned trail</span></span></td>
+    <td class="brandcell small"><span class="m"><b>DynaSoft Nitrel v6</b><br><span class="tier">Value hybrid</span></span><span class="m"><b>Fresh Foam X Hierro v9</b><br><span class="tier">Cushioned trail</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Challenger 8</b><br><span class="tier">Category leader</span></span><span class="m"><b>Transport</b><br><span class="tier">Utility hybrid</span></span></td>
+  </tr>
+
+  <!-- T2 -->
+  <tr>
+    <td class="seghead">
+      <span class="segcode trail">T2</span>
+      <div class="segname">Technical Trail &amp; Mountain</div>
+    </td>
+    <td class="small">Rocky and rooted singletrack; steep ascent/descent; wet rock, mud, snow; skyrunning and vertical KM; fell running; 10–35 km mountain races</td>
+    <td class="small"><span class="pace"><b>1–3 hr</b><br>10–25 km<br>6:30–12:00 /km<br>pace meaningless; terrain rules</span></td>
+    <td class="small">Confidence on descent and no rolled ankle. <span class="lead">Grip is the entire product</span> — this segment will forgive weight, price and looks, but never a slip.</td>
+    <td class="small"><ul class="tight"><li>Aggressive 4–6 mm lugs, sticky wet-rock compound</li><li>Torsional rigidity and low-slung, planted geometry</li><li>Rock plate or dense enough midsole for underfoot protection</li><li>Precise, non-stretch upper lockdown for descents</li><li>Debris exclusion; gaiter attachment</li></ul></td>
+    <td class="small"><span class="lead">Technical trail / mountain running</span> — the most specialist and most defensible off-road tier, $150–200</td>
+    <td class="brandcell small"><span class="gap">Effectively absent</span><span class="m"><b>ACG Zegama 2</b><br><span class="tier">Limited distribution</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Terrex Agravic Speed</b><br><span class="tier">Fast technical</span></span><span class="m"><b>Agravic Speed Ultra TT</b><br><span class="tier">Technical-tuned</span></span></td>
+    <td class="brandcell small"><span class="m"><b>FUJISPEED 3</b><br><span class="tier">Race-oriented</span></span><span class="m"><b>FUJI LITE 5</b><br><span class="tier">Agile technical</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Peregrine 16</b><br><span class="tier">Category benchmark</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Summit Unknown v6</b><br><span class="tier">Technical</span></span><span class="m"><b>Minimus Trail</b><br><span class="tier">Low-profile niche</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Speedgoat 7</b><br><span class="tier">Category benchmark</span></span><span class="m"><b>Zinal 3 / Torrent 4</b><br><span class="tier">Light &amp; agile</span></span></td>
+  </tr>
+
+  <!-- T3 -->
+  <tr>
+    <td class="seghead">
+      <span class="segcode trail">T3</span>
+      <div class="segname">Ultra &amp; Trail Race Day</div>
+    </td>
+    <td class="small">50K to 100 miles; UTMB-circuit racing; multi-hour mountain efforts; long runnable trail races; back-of-pack all-day finishing</td>
+    <td class="small"><span class="pace"><b>4–30 hr</b><br>50–160 km<br>6:00–14:00 /km<br>hiking segments included</span></td>
+    <td class="small">Finish. Then finish faster. <span class="lead">Foot preservation over 50,000+ steps</span> outranks propulsion — the plate here is asked to stabilise, not to spring.</td>
+    <td class="small"><ul class="tight"><li>39–49 mm stack that still resists bottoming out at hour eight</li><li>Plate tuned for stability on off-camber ground, not pure return</li><li>Upper accommodating 1–1.5 sizes of foot swelling</li><li>Outsole durability across mixed terrain for a full race</li><li>Drains fast; no seams that abrade when wet</li></ul></td>
+    <td class="small"><span class="lead">Ultra trainer</span> and <span class="lead">plated trail super shoe</span> — carbon crossed from road to trail and is now standard beyond 50 km, $180–260</td>
+    <td class="brandcell small"><span class="m"><b>ACG Ultrafly 2</b><br><span class="tier">Plated trail racer</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Terrex Agravic Speed Ultra 2</b><br><span class="tier">Category benchmark</span></span></td>
+    <td class="brandcell small"><span class="m"><b>GEL-Trabuco Max 4</b><br><span class="tier">Protective ultra</span></span><span class="m"><b>METAFUJI Trail</b><br><span class="tier">Plated racer</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Xodus Ultra 3</b><br><span class="tier">Cushioned ultra</span></span><span class="m"><b>Endorphin Rift</b><br><span class="tier">Rockered trail</span></span></td>
+    <td class="brandcell small"><span class="gap">No plated racer</span><span class="m"><b>Fresh Foam X Hierro v9</b><br><span class="tier">Cushioned ultra</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Tecton X 3</b><br><span class="tier">Twin-plate ultra racer</span></span><span class="m"><b>Mafate X</b><br><span class="tier">Max-stack ultra</span></span></td>
+  </tr>
+
+  <tr class="famrow"><td colspan="12">Family X — Embedded &amp; adjacent (the run is part of something else)</td></tr>
+
+  <!-- X1 -->
+  <tr>
+    <td class="seghead">
+      <span class="segcode frontier">X1</span>
+      <div class="segname">Treadmill &amp; Indoor</div>
+    </td>
+    <td class="small">Gym and hotel treadmill; home running deck; incline walking-running; monsoon, haze, heat, ice or darkness as the reason; safety-driven indoor running, disproportionately by women</td>
+    <td class="small"><span class="pace"><b>20–60 min</b><br>3–10 km<br>any pace<br>flat or inclined belt</span></td>
+    <td class="small">Get the session done when outside isn't an option. Growing fastest in <span class="lead">hot, humid and high-AQI cities</span> — the exact markets where road-running product is designed for someone else's climate.</td>
+    <td class="small"><ul class="tight"><li>Extreme breathability and moisture management — no wind cooling on a belt</li><li>Minimal outsole rubber needed; mass can be removed</li><li>Belt-compliant traction; no marking, low noise</li><li>Consistent cushioning with no lateral demand</li><li>Tolerates immediate transition to strength work</li></ul></td>
+    <td class="small"><span class="gap">No category exists</span> Every brand sells R1/R2 trainers into this occasion by default. No major brand markets, engineers or names a treadmill shoe.</td>
+    <td class="brandcell small"><span class="m"><span class="tier">Defaults to</span><br><b>Pegasus 42</b></span></td>
+    <td class="brandcell small"><span class="m"><span class="tier">Defaults to</span><br><b>Adizero SL2</b></span></td>
+    <td class="brandcell small"><span class="m"><span class="tier">Defaults to</span><br><b>Novablast 6</b></span></td>
+    <td class="brandcell small"><span class="m"><span class="tier">Defaults to</span><br><b>Ride 19</b></span></td>
+    <td class="brandcell small"><span class="m"><span class="tier">Defaults to</span><br><b>Rebel v5 / 880v15</b></span></td>
+    <td class="brandcell small"><span class="m"><span class="tier">Defaults to</span><br><b>Clifton 11</b></span></td>
+  </tr>
+
+  <!-- X2 -->
+  <tr>
+    <td class="seghead">
+      <span class="segcode frontier">X2</span>
+      <div class="segname">Hybrid Fitness Racing</div>
+    </td>
+    <td class="small">HYROX; obstacle-course racing and Spartan; CrossFit events with running; military and tactical fitness tests; "runner who also lifts" training days</td>
+    <td class="small"><span class="pace"><b>60–120 min</b><br>8 km of running split into 1 km blocks between eight strength stations</span></td>
+    <td class="small">Run fast <em>and</em> not slip on a sled push. The shoe is asked to do <span class="lead">two biomechanically opposed jobs</span>, and poor grip alone is estimated to cost minutes across the stations.</td>
+    <td class="small"><ul class="tight"><li>Full-coverage high-friction rubber for rubber gym flooring</li><li>Flat, wide, stable platform under load — sled, lunge, carry</li><li>Forefoot flexibility for burpees and jumps, not plate rigidity</li><li>Yet still 240 g or under with real energy return over 8 km</li><li>Upper that survives rope, sand and lateral shear</li></ul></td>
+    <td class="small"><span class="lead">Hybrid racing shoe</span> — a genuinely new category. PUMA is the official HYROX partner and effectively owns it; five of the six brands below have no answer.</td>
+    <td class="brandcell small"><span class="gap">No offer</span><span class="m"><span class="tier">Athletes improvise with</span><br><b>Zoom Fly 6</b></span></td>
+    <td class="brandcell small"><span class="m"><b>Dropset Elite</b><br><span class="tier">Hybrid-built · closest of the six</span></span></td>
+    <td class="brandcell small"><span class="gap">No offer</span><span class="m"><span class="tier">Improvised</span><br><b>Novablast 6</b></span></td>
+    <td class="brandcell small"><span class="gap">No offer</span><span class="m"><span class="tier">Improvised</span><br><b>Endorphin Speed 5</b></span></td>
+    <td class="brandcell small"><span class="gap">No offer</span><span class="m"><span class="tier">Improvised</span><br><b>Rebel v5 / 1080v15</b></span></td>
+    <td class="brandcell small"><span class="gap">No offer</span><span class="m"><span class="tier">Improvised</span><br><b>Mach 7</b></span></td>
+  </tr>
+
+  <!-- X3 -->
+  <tr>
+    <td class="seghead">
+      <span class="segcode frontier">X3</span>
+      <div class="segname">Run-Commute &amp; Utility</div>
+    </td>
+    <td class="small">Running to and from work with a pack; errand runs; stroller running; running as travel; dog running; the "one pair in the suitcase" business traveller</td>
+    <td class="small"><span class="pace"><b>25–55 min</b><br>5–10 km<br>5:45–7:30 /km<br>often twice daily, loaded</span></td>
+    <td class="small">Replace a commute, not schedule a workout. Buys on <span class="lead">total-life utility</span>: must run well, survive rain, be seen at night, and not look absurd in an office or a café.</td>
+    <td class="small"><ul class="tight"><li>Stability under 5–8 kg of shifting backpack load</li><li>Water resistance and fast drying; salt- and grit-resistant</li><li>Serious 360° reflectivity — most reflective detail today is decorative</li><li>Odour control for a shoe worn twice a day</li><li>Colourways that read as clothing, not equipment</li></ul></td>
+    <td class="small"><span class="gap">Barely a category</span> Served accidentally by lifestyle-crossover trainers and by GTX variants sold for weather, not for utility.</td>
+    <td class="brandcell small"><span class="gap">No offer</span><span class="m"><span class="tier">Crossover</span><br><b>Pegasus Premium</b></span></td>
+    <td class="brandcell small"><span class="gap">No offer</span><span class="m"><span class="tier">Crossover</span><br><b>Ultraboost 5</b></span></td>
+    <td class="brandcell small"><span class="gap">No offer</span><span class="m"><span class="tier">Crossover</span><br><b>Sportstyle line</b></span></td>
+    <td class="brandcell small"><span class="gap">No offer</span><span class="m"><span class="tier">Crossover</span><br><b>Triumph 24</b></span></td>
+    <td class="brandcell small"><span class="m"><b>Ellipse v1</b><br><span class="tier">Explicitly lifestyle-lean</span></span></td>
+    <td class="brandcell small"><span class="m"><b>Transport</b><br><span class="tier">Purpose-built utility</span></span><span class="m"><b>Skyflow</b><br><span class="tier">Crossover</span></span></td>
+  </tr>
+
+  </tbody>
+</table>
+</div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ MODIFIERS ============ -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2 class="sec">The four modifiers that cut across all twelve</h2>
+    </div>
+    <p class="sec-sub">These are not segments — they are axes. Each one applies to every occasion above, which is why they belong in a fit/spec system rather than in the occasion grid. Getting this separation right is what stops a model matrix from doubling in size for no strategic reason.</p>
+
+    <table class="mods">
+      <thead>
+        <tr><th>Modifier</th><th>How it varies</th><th>How the six brands express it today</th><th>Implication for a new matrix</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Support &amp; pronation need</td>
+          <td>Neutral → guided → structured. Overpronation is commonly cited at roughly 40–60% of runners, concentrated among beginners, higher-body-mass runners, flat arches and older runners.</td>
+          <td>Nike Structure 26 / Structure Plus · adidas Supernova Solution &amp; Adistar · ASICS GEL-KAYANO 33, GT-2000 15 · Saucony Guide 19, Tempus 3, Hurricane 25 · NB 860v15, Vongo v7 · HOKA Arahi 9, Gaviota 6. Note Nike now <i>mirrors</i> its neutral tiers — Structure 26 / Plus / Premium parallels Pegasus and Vomero.</td>
+          <td>Build support as a <b>variant of an occasion shoe</b>, not a parallel line. Modern guidance rails and wide bases cost almost nothing in tooling versus a separate franchise.</td>
+        </tr>
+        <tr>
+          <td>Foot &amp; body morphology</td>
+          <td>Width (2A–6E), instep volume, toe-box shape, and body mass — a 95 kg runner compresses foam roughly twice as fast as the 68 kg tester most shoes are tuned around.</td>
+          <td>New Balance leads on width breadth; ASICS and Saucony offer 2E/4E across core models; Nike is narrowest and offers extra-wide only on selected models. No major brand tunes <i>midsole density</i> by body mass.</td>
+          <td>Density-tuned midsoles by weight band is unclaimed ground and matters most in R1, R2 and R4, where the buyer is heaviest and least served.</td>
+        </tr>
+        <tr>
+          <td>Environment</td>
+          <td>Hot-humid · temperate · cold-wet · night/low-light · high-AQI. Determines upper, drainage, outsole compound and visibility.</td>
+          <td>Handled almost entirely as a GTX or "waterproof" SKU aimed at cold-wet Northern Hemisphere winters. There is no equivalent engineering programme for hot-humid conditions.</td>
+          <td>The single most under-served axis. Tropical and monsoon markets are large, growing, and currently sold temperate-market product with a different colourway.</td>
+        </tr>
+        <tr>
+          <td>Price tier</td>
+          <td>Entry $100–130 · Core $140–180 · Premium trainer $200–260 · Race $250–500. The $50–100 band still holds the largest global unit share.</td>
+          <td>All six now run a three-tier road architecture — Nike Icon/Plus/Premium, ASICS Novablast/Superblast/Megablast, HOKA Clifton/Skyflow/Skyward — which raises ASP but also multiplies near-duplicates.</td>
+          <td>A new brand does not need three tiers per occasion. One correct shoe per occasion, with fit variants, is a defensible and far cheaper matrix.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ EDGE ============ -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2 class="sec">Where the edge is — and isn't</h2>
+    </div>
+    <p class="sec-sub">Reading the coverage map commercially. Ranked by the ratio of demand to incumbent commitment, not by size alone.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="rank">Opening 01 · strongest</div>
+        <h3>Hybrid fitness racing</h3>
+        <p>A category that barely existed five years ago, now with a global race calendar and a shoe problem no running brand has solved: one shoe, two opposed biomechanical demands.</p>
+        <p>PUMA holds the official partnership and adidas has the only purpose-built alternative among the six. Nike, ASICS, Saucony, New Balance and HOKA field nothing, and their athletes are visibly improvising in road trainers.</p>
+        <p class="verdict">Small now, defensible, and it recruits a customer who buys shoes on a 4–6 month cycle rather than 12.</p>
+      </div>
+      <div class="card">
+        <div class="rank">Opening 02</div>
+        <h3>Hot-humid climate engineering</h3>
+        <p>Every one of the six designs its performance product for temperate conditions and then ships it globally. Weatherproofing means Gore-Tex for cold rain; nothing in the matrix addresses 32 °C at 85% humidity.</p>
+        <p>The functional brief is genuinely different: drainage over water resistance, foam that doesn't go soft in heat, anti-microbial linings, and outsole compound tuned for wet tile and painted road markings.</p>
+        <p class="verdict">Cuts across R1–R5 and T1. A credible technical story that incumbents cannot copy without contradicting their own global platform.</p>
+      </div>
+      <div class="card">
+        <div class="rank">Opening 03</div>
+        <h3>Treadmill &amp; indoor</h3>
+        <p>Zero brands out of six name this occasion, yet it is a large and growing share of all running — driven by heat, air quality, safety and gym membership rather than preference.</p>
+        <p>The requirement genuinely differs from road: outsole mass can be removed, breathability becomes critical without airflow, and the run usually sits inside a gym session rather than standing alone.</p>
+        <p class="verdict">Risk: buyers may not believe they need a specific shoe. Best played as a feature story inside R1/R2 rather than a standalone franchise.</p>
+      </div>
+      <div class="card">
+        <div class="rank">Opening 04</div>
+        <h3>Door-to-trail, done properly</h3>
+        <p>The largest off-road population and the one most brands treat as a downmarket trail SKU. Most buyers here do not identify as trail runners; they simply have imperfect pavement.</p>
+        <p>Nike, ASICS and New Balance all serve it with adapted product. HOKA's Challenger is the only shoe of the six clearly built for the occasion, which is why it dominates it.</p>
+        <p class="verdict">Moderate competition, real volume, and far cheaper to enter than technical mountain.</p>
+      </div>
+      <div class="card avoid">
+        <div class="rank">Avoid at launch · 01</div>
+        <h3>Long-course race day</h3>
+        <p>Six credible flagships, elite sponsorship as the entry ticket, PEBA-class tooling costs, and a buyer who chooses on marathon results they watched on television.</p>
+        <p class="verdict">Highest halo, lowest odds. Earn the right to it in R5 first.</p>
+      </div>
+      <div class="card avoid">
+        <div class="rank">Avoid at launch · 02</div>
+        <h3>Recovery &amp; max cushion</h3>
+        <p>Bondi, Nimbus, Triumph, More, Vomero — five near-identical answers to one question, all with a decade of brand equity and heavy discounting.</p>
+        <p class="verdict">The most crowded square on the board. Nothing left to say here.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <p><b>Method.</b> Occasions were derived from training-structure logic and validated against how the six brands actually organise and market their 2026 lines; model assignments were checked against brand line-ups, specialist-retailer category pages and independent testing coverage as of August 2026.</p>
+      <p><b>Caveats.</b> Running lines refresh on a 12–18 month cycle and regional availability differs, so treat specific model names as a snapshot rather than a fixed state. Coverage scoring (full / adapted / absent) is an analytical judgement about whether a brand builds <i>for</i> an occasion, not a measure of product quality or sales. Market-share and participation figures cited in the analysis come from third-party trade research and vary by source.</p>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
