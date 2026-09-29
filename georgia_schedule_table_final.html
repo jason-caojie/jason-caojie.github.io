@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2026国庆格鲁吉亚最终行程表</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f6f5;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --muted: #667085;
+      --line: #d8dfdc;
+      --head: #174f47;
+      --soft: #eaf3ef;
+      --accent: #b7791f;
+      --risk: #9f3a38;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.55;
+    }
+
+    header {
+      padding: 44px 24px 34px;
+      color: #fff;
+      background:
+        linear-gradient(115deg, rgba(23, 79, 71, 0.98), rgba(57, 96, 73, 0.93) 52%, rgba(125, 92, 47, 0.94));
+    }
+
+    .wrap {
+      width: min(1280px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 50px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 900px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 17px;
+    }
+
+    main {
+      padding: 28px 0 54px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .metric {
+      min-height: 92px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+    }
+
+    .metric strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 24px;
+      color: var(--head);
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .table-panel {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: 0 14px 34px rgba(31, 41, 51, 0.08);
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 1180px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    col.date { width: 76px; }
+    col.route { width: 210px; }
+    col.detail { width: 260px; }
+    col.hotel { width: 260px; }
+    col.food { width: 270px; }
+    col.note { width: 320px; }
+
+    th,
+    td {
+      padding: 14px 13px;
+      vertical-align: top;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 0;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      color: #fff;
+      background: var(--head);
+      font-size: 13px;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #fbfcfb;
+    }
+
+    .date-cell {
+      font-weight: 750;
+      color: var(--head);
+      white-space: nowrap;
+    }
+
+    .route-title {
+      font-weight: 750;
+      color: #24362f;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 2px 8px;
+      border: 1px solid #c6d8d2;
+      border-radius: 999px;
+      color: var(--head);
+      background: var(--soft);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .hotel-name {
+      font-weight: 750;
+      color: #24362f;
+    }
+
+    .price {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .cancel {
+      color: var(--risk);
+      font-weight: 650;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .todo {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+
+    .lodging-panel {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: 0 14px 34px rgba(31, 41, 51, 0.06);
+    }
+
+    .lodging-panel h2 {
+      margin: 0 0 6px;
+      color: var(--head);
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .lodging-intro {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .lodging-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .lodging-card {
+      min-height: 248px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+    }
+
+    .lodging-card h3 {
+      margin: 0 0 6px;
+      color: #24362f;
+      font-size: 17px;
+      line-height: 1.3;
+    }
+
+    .lodging-meta {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .lodging-card p {
+      margin: 5px 0;
+      font-size: 13px;
+    }
+
+    .score {
+      color: var(--head);
+      font-weight: 750;
+    }
+
+    .notes {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 12px;
+    }
+
+    .note-card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+    }
+
+    .note-card h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.3;
+      color: var(--head);
+    }
+
+    .note-card p {
+      margin: 6px 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      header {
+        padding: 34px 18px 26px;
+      }
+
+      .wrap {
+        width: min(100% - 24px, 1280px);
+      }
+
+      .summary,
+      .notes,
+      .lodging-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metric {
+        min-height: auto;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      header {
+        padding: 24px 0 18px;
+        color: var(--ink);
+        background: #fff;
+      }
+
+      .wrap {
+        width: 100%;
+      }
+
+      .summary,
+      .notes {
+        display: none;
+      }
+
+      .table-panel {
+        box-shadow: none;
+        border-radius: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>2026国庆格鲁吉亚最终行程表</h1>
+      <p class="subtitle">雨天城市与古迹优先，10月4日进山，10月5日集中完成 Ushguli 核心行程</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="summary" aria-label="行程摘要">
+      <div class="metric"><strong>8天</strong><span>9月30日抵达，10月7日晚离境</span></div>
+      <div class="metric"><strong>西行不折返</strong><span>Tbilisi → Kutaisi → Zugdidi → Mestia</span></div>
+      <div class="metric"><strong>7晚</strong><span>当前有效 Booking 住宿</span></div>
+      <div class="metric"><strong>10-5核心日</strong><span>Mestia 往返 Ushguli</span></div>
+    </section>
+
+    <section class="table-panel" aria-label="每日行程表">
+      <div class="table-scroll">
+        <table>
+          <colgroup>
+            <col class="date">
+            <col class="route">
+            <col class="detail">
+            <col class="hotel">
+            <col class="food">
+            <col class="note">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>当日核心行程</th>
+              <th>精准路线 / 景点顺序</th>
+              <th>住宿</th>
+              <th>预估时长</th>
+              <th>关键备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="date-cell">9-30</td>
+              <td><div class="route-title">抵达第比利斯</div><span class="tag">落地休整</span></td>
+              <td>机场落地 → 机场取车 → 市区酒店办理入住<br>傍晚仅简单闲逛，不安排正式景点</td>
+              <td><div class="hotel-name">MariaLuis Hotel</div><div class="price">GEL 321.86</div><div class="muted">2 x Standard Triple Room</div><div class="muted">含早餐 · 已确认</div><div class="muted">32 Elene Akhvlediani Street, 0109 Tbilisi</div></td>
+              <td>—</td>
+              <td>抵达缓冲日，养精蓄锐</td>
+            </tr>
+            <tr>
+              <td class="date-cell">10-1</td>
+              <td><div class="route-title">第比利斯市区全日游</div><span class="tag">雨天方案</span></td>
+              <td>自由广场与鲁斯塔韦利大街 → 老城、硫磺浴街区 → 纳里卡拉要塞 → Metekhi 观景台 → 干桥市场 → 圣三一大教堂 → 木偶钟楼 → 国家博物馆</td>
+              <td><div class="hotel-name">Galavani By Vintage Hotel Collections</div><div class="price">GEL 575.59</div><div class="muted">Family Suite + Classic Triple Room</div><div class="muted">含早餐 · 已确认 · 不可退款</div><div class="muted">Lado Meskhishvili 35, 0103 Tbilisi</div></td>
+              <td>全天灵活</td>
+              <td>不出城；雨天优先室内和有遮蔽区域，未完成景点留到10月7日</td>
+            </tr>
+            <tr>
+              <td class="date-cell">10-2</td>
+              <td><div class="route-title">第比利斯 → 库塔伊西</div><span class="tag">雨天西行</span></td>
+              <td>Mtskheta 姆茨赫塔古都 → Uplistsikhe 洞穴古城 → Gori 斯大林博物馆 → 库塔伊西；晚间有精力可逛 Bagrati</td>
+              <td><div class="hotel-name">Gelati Residence</div><div class="price">GEL 800</div><div class="muted">2 x Family Room</div><div class="muted">已确认 · 可免费取消</div><div class="muted">Boris Gaponov Street, 4600 Kutaisi</div></td>
+              <td>姆茨赫塔1.5h<br>洞穴古城1.5h<br>斯大林博物馆1.5h</td>
+              <td>全程顺路，人文古迹为主；库塔伊西核心景点留作机动</td>
+            </tr>
+            <tr>
+              <td class="date-cell">10-3</td>
+              <td><div class="route-title">库塔伊西 → 祖格迪迪</div><span class="tag">雨天方案</span></td>
+              <td>库塔伊西出发西行 → Zugdidi 市区 → Dadiani 达迪亚尼王宫及花园</td>
+              <td><div class="hotel-name">White Hotel Guesthouse</div><div class="price">GEL 300</div><div class="muted">Deluxe Family Room + Quadruple Room with Balcony</div><div class="muted">不含餐 · 已确认 · 可免费取消</div><div class="muted">Kostava str. 70, 2100 Zugdidi</div></td>
+              <td>王宫1.5h</td>
+              <td>本日不去 Enguri 水坝、不进山；晚间加满油并采购物资</td>
+            </tr>
+            <tr>
+              <td class="date-cell">10-4</td>
+              <td><div class="route-title">祖格迪迪 → 梅斯蒂亚</div><span class="tag">午间转晴</span></td>
+              <td>Zugdidi 清晨出发 → Enguri 英古里水坝短停 → 盘山公路进山 → Mestia 石塔与小镇轻度游览</td>
+              <td><div class="hotel-name">Galash-R</div><div class="price">GEL 410</div><div class="muted">Suite with Mountain View + Twin Room with Mountain View</div><div class="muted">含早餐 · 已确认 · 可免费取消</div><div class="muted">50 ushba street, Mestia</div></td>
+              <td>水坝0.5h<br>小镇2h</td>
+              <td>上午雨后慢行，下午进山；不安排高强度徒步</td>
+            </tr>
+            <tr>
+              <td class="date-cell">10-5</td>
+              <td><div class="route-title">Mestia 往返 Ushguli</div><span class="tag">全天晴 · 核心日</span></td>
+              <td>前往乌什古里古村落 → 雪山观景、中世纪石塔群、短途轻徒步 → 村落午餐与拍照 → 返回 Mestia</td>
+              <td><div class="hotel-name">Galash-R</div><div class="price">GEL 454</div><div class="muted">Suite with Mountain View + Luxury Triple Room</div><div class="muted">含早餐 · 已确认 · 可免费取消</div><div class="muted">50 ushba street, Mestia</div></td>
+              <td>全程4-5h</td>
+              <td>核心晴天窗口；山路谨慎驾驶，优先本地四驱拼车</td>
+            </tr>
+            <tr>
+              <td class="date-cell">10-6</td>
+              <td><div class="route-title">Mestia → 第比利斯</div><span class="tag">晴天返程</span></td>
+              <td>全程东行返回第比利斯；中午可在 Zugdidi 停留吃饭</td>
+              <td><div class="hotel-name">Hotel Monday by DNT Group</div><div class="price">GEL 979.20</div><div class="muted">2 x Superior Deluxe Double or Twin Room</div><div class="muted">含早餐 · 已确认 · 可免费取消</div><div class="muted">22 Ushangi Chkheidze Street, Chugureti, 0112 Tbilisi</div></td>
+              <td>沿途总停留不超过2h</td>
+              <td>不安排长线景点，不疲劳驾驶</td>
+            </tr>
+            <tr>
+              <td class="date-cell">10-7</td>
+              <td><div class="route-title">第比利斯收尾 + 晚间离境</div></td>
+              <td>补逛10月1日未完成的市区景点 → 伴手礼采购、整理行李 → 按航班时间前往机场</td>
+              <td>—</td>
+              <td>灵活支配</td>
+              <td>东北酒庄仅作机动备选，不占用返程缓冲</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="lodging-panel" aria-label="Booking住宿确认与评价参考">
+      <h2>Booking住宿确认与评价参考</h2>
+      <p class="lodging-intro">信息来源：Booking.com 已确认订单详情页，核对时间：2026-09-29。仅展示行程所需信息，不展示确认号、PIN、邮箱、电话、银行卡等敏感信息。</p>
+      <div class="lodging-grid">
+        <article class="lodging-card">
+          <h3>9-30 · Tbilisi · MariaLuis Hotel</h3>
+          <p class="score">已确认</p>
+          <p><strong>房型</strong>：2 x Standard Triple Room</p>
+          <p><strong>总价</strong>：GEL 321.86</p>
+          <p><strong>早餐</strong>：含早餐</p>
+          <p><strong>地址</strong>：32 Elene Akhvlediani Street, 0109 Tbilisi, Georgia</p>
+          <p><strong>取消条件</strong>：以 Booking.com 订单详情页为准</p>
+        </article>
+        <article class="lodging-card">
+          <h3>10-1 · Tbilisi · Galavani By Vintage Hotel Collections</h3>
+          <p class="score">已确认 · 不可退款</p>
+          <p><strong>房型</strong>：1 x Family Suite；1 x Classic Triple Room</p>
+          <p><strong>总价</strong>：GEL 575.59</p>
+          <p><strong>早餐</strong>：含早餐</p>
+          <p><strong>地址</strong>：Lado Meskhishvili 35, 0103 Tbilisi, Georgia</p>
+        </article>
+        <article class="lodging-card">
+          <h3>10-2 · Kutaisi · Gelati Residence</h3>
+          <p class="score">已确认 · 可免费取消</p>
+          <p><strong>房型</strong>：2 x Family Room</p>
+          <p><strong>总价</strong>：GEL 800</p>
+          <p><strong>早餐</strong>：订单页面未注明</p>
+          <p><strong>地址</strong>：Boris Gaponov Street, 4600 Kutaisi, Georgia</p>
+        </article>
+        <article class="lodging-card">
+          <h3>10-3 · Zugdidi · White Hotel Guesthouse</h3>
+          <p class="score">已确认 · 可免费取消</p>
+          <p><strong>房型</strong>：1 x Deluxe Family Room；1 x Quadruple Room with Balcony</p>
+          <p><strong>总价</strong>：GEL 300</p>
+          <p><strong>早餐</strong>：房价不含餐</p>
+          <p><strong>地址</strong>：Kostava str. 70, 2100 Zugdidi, Georgia</p>
+        </article>
+        <article class="lodging-card">
+          <h3>10-4 · Mestia · Galash-R</h3>
+          <p class="score">已确认 · 可免费取消</p>
+          <p><strong>房型</strong>：1 x Suite with Mountain View；1 x Twin Room with Mountain View</p>
+          <p><strong>总价</strong>：GEL 410</p>
+          <p><strong>早餐</strong>：含早餐</p>
+          <p><strong>地址</strong>：50 ushba street, Mestia, Georgia</p>
+        </article>
+        <article class="lodging-card">
+          <h3>10-5 · Mestia · Galash-R</h3>
+          <p class="score">已确认 · 可免费取消</p>
+          <p><strong>房型</strong>：1 x Suite with Mountain View；1 x Luxury Triple Room</p>
+          <p><strong>总价</strong>：GEL 454</p>
+          <p><strong>早餐</strong>：含早餐</p>
+          <p><strong>地址</strong>：50 ushba street, Mestia, Georgia</p>
+        </article>
+        <article class="lodging-card">
+          <h3>10-6 · Tbilisi · Hotel Monday by DNT Group</h3>
+          <p class="score">已确认 · 可免费取消</p>
+          <p><strong>房型</strong>：2 x Superior Deluxe Double or Twin Room</p>
+          <p><strong>总价</strong>：GEL 979.20</p>
+          <p><strong>早餐</strong>：含早餐</p>
+          <p><strong>地址</strong>：22 Ushangi Chkheidze Street, Chugureti, 0112 Tbilisi, Georgia</p>
+        </article>
+      </div>
+      <p class="lodging-intro">状态说明：Lento Kaldani Guesthouse 虽仍显示“已确认”，但已按本次要求作废并排除。Guest House Victor、Elo's Guesthouse、Agra Ushguli、Newport Hotel Kutaisi 已取消，也未列入。</p>
+    </section>
+
+    <section class="notes" aria-label="待确认事项">
+      <div class="note-card">
+        <h2>当前待确认</h2>
+        <p>10月5日 Mestia 往返 Ushguli 优先使用本地四驱拼车；10月7日保留足够的还车与机场缓冲。</p>
+      </div>
+      <div class="note-card">
+        <h2>版本说明</h2>
+        <p>更新时间：2026-09-29。路线依据临行前天气定稿，住宿依据 Booking.com 当前记录；Lento Kaldani 已人工排除。</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
